@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" :style="getStyle">
+  <div :class="getClass">
     <div :class="`${prefixCls}-image-wrapper`" :style="getImageWrapperStyle" @click="openModal">
       <div :class="`${prefixCls}-image-mask`" :style="getImageWrapperStyle">
         <Icon
@@ -14,7 +14,6 @@
     <a-button :class="`${prefixCls}-upload-btn`" @click="openModal" v-if="showBtn" v-bind="btnProps">
       {{ btnText ? btnText : t('component.cropper.selectImage') }}
     </a-button>
-
     <CopperModal
       @register="register"
       @upload-success="handleUploadSuccess"
@@ -60,8 +59,6 @@
 
       const getIconWidth = computed(() => parseInt(`${props.width}`.replace(/px/, '')) / 2 + 'px');
 
-      const getStyle = computed((): CSSProperties => ({ width: unref(getWidth) }));
-
       const getImageWrapperStyle = computed((): CSSProperties => ({ width: unref(getWidth), height: unref(getWidth) }));
 
       watchEffect(() => {
@@ -92,7 +89,6 @@
         sourceValue,
         getClass,
         getImageWrapperStyle,
-        getStyle,
         handleUploadSuccess,
       };
     },
@@ -112,6 +108,7 @@
       background: @component-background;
       border: 1px solid @border-color-base;
       border-radius: 50%;
+      margin: 0 auto;
 
       img {
         width: 100%;
