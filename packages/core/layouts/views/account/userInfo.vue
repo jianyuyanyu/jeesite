@@ -5,7 +5,7 @@
         <BasicForm @register="register" />
       </ACol>
       <ACol :span="10">
-        <div class="change-avatar mt-6">
+        <div class="change-avatar mt-6 text-center">
           <CropperAvatar
             :value="avatar"
             :btnText="t('sys.account.changeAvatar')"
