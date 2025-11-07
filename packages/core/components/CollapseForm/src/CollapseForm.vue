@@ -7,11 +7,8 @@
   <div class="jeesite-collapse-form-page">
     <ScrollContainer ref="contentRef" :style="{ height: contentHeight + 'px' }" v-loading="props.loading">
       <div v-for="item in configList" :key="item.value">
-        <Collapse
-          :class="item.value"
-          :default-active-key="configList.filter((i) => i.open || true).map((i) => i.value)"
-        >
-          <Collapse.Panel :key="item.value" :header="item.label">
+        <Collapse :class="item.value" :default-active-key="item.open ? [item.value] : []">
+          <Collapse.Panel :key="item.value" :header="item.label" :forceRender="true">
             <slot :name="item.value"></slot>
           </Collapse.Panel>
         </Collapse>
