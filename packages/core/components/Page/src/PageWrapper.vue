@@ -140,6 +140,7 @@
     },
     contentBackground: propTypes.bool.def(true),
     contentFullHeight: propTypes.bool,
+    contentMinHeight: propTypes.number.def(300),
     contentClass: propTypes.string,
     fixedHeight: propTypes.bool.def(true),
     upwardSpace: propTypes.oneOfType([propTypes.number, propTypes.string]).def(0),
@@ -211,8 +212,9 @@
   const getShowFooter = computed(() => slots?.leftFooter || slots?.rightFooter);
 
   const getContentStyle = computed((): CSSProperties => {
-    const { contentFullHeight, contentStyle, fixedHeight } = props;
-    const height = `${(unref(contentHeight) || 800) - (!sidebar ? -12 : 0)}px`;
+    const { contentFullHeight, contentMinHeight, contentStyle, fixedHeight } = props;
+    const h = (unref(contentHeight) || 800) - (!sidebar ? -12 : 0);
+    const height = `${h < contentMinHeight ? contentMinHeight : h}px`;
 
     if (sidebar) {
       return {
@@ -241,9 +243,10 @@
 
   // 自适应侧边栏高度 by think gem
   function calcSidebarContentHeight() {
-    if (props.contentFullHeight && contentHeight.value) {
+    const { contentFullHeight, contentMinHeight } = props;
+    if (contentFullHeight && contentHeight.value) {
       const height = contentHeight.value - 14;
-      getSidebarContentHeight.value = height < 300 ? 300 : height;
+      getSidebarContentHeight.value = height < contentMinHeight ? contentMinHeight : height;
       return;
     }
     let height = 0;
