@@ -4,14 +4,14 @@
  * @author ThinkGem
 -->
 <template>
-  <PageWrapper :sidebarWidth="230" :contentFullHeight="true">
+  <PageWrapper :sidebarWidth="230" :contentFullHeight="true" :contentMinHeight="400">
     <template #sidebar>
       <div class="p-2 pt-1">
         <a-button type="primary" class="w-full" @click="handleAdd" :disabled="loading">
           <Icon icon="i-ant-design:plus-outlined" /> {{ t('新建对话') }}
         </a-button>
       </div>
-      <ScrollContainer class="jeesite-cms-ai p-2 bg-white rounded-2 h-full">
+      <ScrollContainer ref="chatListRef" class="jeesite-cms-ai p-2 bg-white rounded-2 h-full">
         <Menu class="jeesite-cms-ai-menu" v-model:selectedKeys="conversationIds" :disabled="loading">
           <template v-for="(item, index) in chatList" :key="item.id">
             <Menu.Item @click="handleSelect(item)">
@@ -22,10 +22,11 @@
                     size="small"
                     class="mr-2"
                     @blur="handleEdit(item, false, $event)"
+                    :ref="(el) => setEditInputRef(el, item)"
                   />
                 </span>
                 <span v-else class="flex-1 truncate">{{ item.title }}</span>
-                <span v-if="item.id == conversationIds[0]" class="c-gray">
+                <span class="actions c-gray">
                   <Icon icon="i-ant-design:edit" class="pt-3" @click="handleEdit(item, true)" />
                   <Popconfirm :title="t('是否确认删除该对话吗？')" @confirm="handleDelete(item, index)">
                     <Icon icon="i-ant-design:delete" class="pt-3" />
@@ -39,14 +40,25 @@
       </ScrollContainer>
     </template>
     <div class="h-full rounded-2 flex flex-col overflow-hidden">
-      <div v-if="messages.length == 0" class="h-[90%] flex justify-center items-center text-center">
-        <div class="text-xl c-gray-4">
-          {{ t('我是你的 AI 助手，我可以帮你解答一些问题') }}
-          <div v-if="userStore.getPageCacheByKey('demoMode')" class="text-sm mt-20 line-height-loose">
-            提示：当前对接的是 DeepSeek 蒸馏过的 7B 超小模型，仅作为演示使用，AI 回答结果可能不够理想，<br />
-            可在自己本地部署，或对接其它大模型。此外当前向量库中只含了几篇关于 jeesite 的文章，<br />
-            知识库文章来源，可进入菜单查看：扩展功能 -> 内容管理 -> 内容发布<br />
-            提问举例：jeesite 简介、jeesite 优势、jeesite 技术栈，体验一下。
+      <div v-if="messages.length == 0" class="h-full flex justify-center items-center text-center">
+        <div class="overflow-hidden">
+          <div class="text-xl c-gray-5">
+            {{ t('我是你的 AI 助手，我可以帮你解答一些问题') }}
+          </div>
+          <div class="mt-5 line-height-loose" v-if="userStore.getPageCacheByKey('demoMode')">
+            <div class="font-size-3.7 c-gray-4 p-3">
+              提示：当前对接的是 DeepSeek-R1-8B 小模型，仅作为当前演示使用，AI 回答结果可能不够理想，<br />
+              由于硬件资源有限，当前 AI 模型未接入 Tool、MPC 等工具服务调用，如想体验与业务联动功能，<br />
+              推荐本地部署，对接 AI 模型 [<a href="https://jeesite.com/docs/ai-cms/" target="_blank">部署指南</a>]。
+              此外当前向量库中只含了几篇关于 jeesite 的文章，<br />
+              知识库数据来源，自 JeeSite 内容管理模块，进入菜单：扩展功能 -> 内容管理 -> 内容发布<br />
+            </div>
+            <div class="mt-5 bg-white rounded-2xl text-left px-5 py-3 op-70">
+              <div class="font-size-4 font-bold pb-1 op-90">猜测您想问：</div>
+              <a-button class="mr-3" shape="round" @click="handleQuick">jeesite 简介</a-button>
+              <a-button class="mr-3" shape="round" @click="handleQuick">jeesite 优势</a-button>
+              <a-button class="mr-3" shape="round" @click="handleQuick">jeesite 技术栈</a-button>
+            </div>
           </div>
         </div>
       </div>
@@ -103,10 +115,12 @@
   const userStore = useUserStore();
 
   const loading = ref(false);
+  const chatListRef = ref<ComponentRef>();
+  const chatList = ref<Recordable[]>([]);
   const messageRef = ref<InstanceType<typeof ChatMessage>>();
   const inputMessageRef = ref<HTMLTextAreaElement>();
   const messages = ref<Recordable[]>([]);
-  const chatList = ref<Recordable[]>([]);
+  const editInputRefs = ref<Recordable>({});
 
   onMounted(async () => {
     chatList.value = await cmsChatList();
@@ -114,14 +128,15 @@
       const res = await cmsChatSave();
       chatList.value.unshift(res);
     }
-    await nextTick(async () => {
-      setTimeout(async () => {
-        await handleSelect(chatList.value[0]);
-      }, 100);
-    });
+    // await nextTick(async () => {
+    //   setTimeout(async () => {
+    //     await handleSelect(chatList.value[0]);
+    //   }, 100);
+    // });
   });
 
   async function handleAdd() {
+    chatListRef.value?.scrollTo(0);
     if (chatList.value.length > 0) {
       await handleSelect(chatList.value[0]);
       if (messages.value.length == 0) {
@@ -141,23 +156,41 @@
     messageRef.value?.scrollBottom();
   }
 
+  function setEditInputRef(el: any, item: Recordable) {
+    if (el) {
+      editInputRefs.value[item.id] = el;
+    }
+  }
+
   async function handleEdit(item: Recordable, edit: boolean, event?: Event) {
     item.edit = edit;
-    if (!edit) {
+    if (edit) {
+      await nextTick(() => {
+        const inputRef = editInputRefs.value[item.id];
+        if (inputRef && inputRef.focus) {
+          inputRef.focus();
+        }
+      });
+    } else if (item.title !== item.oldTitle) {
+      delete item.oldTitle;
       const res = await cmsChatSave(item);
       showMessage(res.message);
     }
+    item.oldTitle = item.title;
   }
 
   async function handleDelete(item: Recordable, idx: number) {
     const res = await cmsChatDelete({ id: item.id });
     chatList.value.splice(idx, 1);
     showMessage(res.message);
-    if (idx == 0 && chatList.value[idx]) {
-      await handleSelect(chatList.value[idx]);
-    } else if (chatList.value[idx - 1]) {
-      await handleSelect(chatList.value[idx - 1]);
-    }
+    // if (idx == 0 && chatList.value[idx]) {
+    //   await handleSelect(chatList.value[idx]);
+    // } else if (chatList.value[idx - 1]) {
+    //   await handleSelect(chatList.value[idx - 1]);
+    // }
+    conversationIds.value = [''];
+    conversationTitle.value = '';
+    messages.value = [];
   }
 
   function handleInput() {
@@ -206,6 +239,16 @@
       showMessage(t('请填写你的问题'));
     }
   }
+
+  function handleQuick(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (inputMessageRef.value) {
+      inputMessageRef.value.value = target.textContent;
+      if (!loading.value) {
+        handleSend();
+      }
+    }
+  }
 </script>
 <style lang="less">
   .jeesite-cms-ai {
@@ -220,6 +263,17 @@
         &-selected {
           background-color: #f0f5ff !important;
           color: #333 !important;
+        }
+
+        .actions {
+          display: none;
+        }
+
+        &-selected,
+        &-active {
+          .actions {
+            display: block;
+          }
         }
       }
     }
