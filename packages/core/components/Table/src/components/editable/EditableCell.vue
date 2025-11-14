@@ -342,9 +342,11 @@
       }
     }
 
-    set(record, dataKey, value || column.editDefaultValue || '');
+    const val = value || column.editDefaultValue;
+    set(record, dataKey, val || typeof val === 'number' ? val : '');
     if (dataLabel) {
-      set(record, dataLabel, labelValue || column.editDefaultLabel || '');
+      const labelVal = labelValue || column.editDefaultLabel;
+      set(record, dataLabel, labelVal || typeof labelVal === 'number' ? labelVal : '');
     }
 
     //const record = await table.updateTableData(index, dataKey, value);
