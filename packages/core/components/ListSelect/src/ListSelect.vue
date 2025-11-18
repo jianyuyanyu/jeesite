@@ -53,6 +53,7 @@
     checkbox: propTypes.bool, // 是否多选
     allowInput: propTypes.bool, // 允许输入
     readonly: propTypes.bool, // 是否只读
+    openCheck: propTypes.bool.def(true), // 打开校验
   });
 
   const emit = defineEmits(['change', 'select', 'click']);
@@ -127,6 +128,9 @@
   });
 
   function openSelectModal() {
+    if (!props.openCheck) {
+      return;
+    }
     let selectList: Recordable[];
     if (selectListRef.value) {
       selectList = selectListRef.value;
