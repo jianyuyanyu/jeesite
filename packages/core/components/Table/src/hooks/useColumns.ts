@@ -274,6 +274,7 @@ export function useColumns(
       updateColumnsRef();
       cacheColumns = columns?.filter((item) => !item.flag) ?? [];
     },
+    { immediate: true }, // 不使用 useTable 的时候，需要主动初始化
   );
 
   // function setCacheColumnsByField(dataIndex: string | undefined, value: Partial<BasicColumn>) {
