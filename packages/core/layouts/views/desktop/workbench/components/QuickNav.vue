@@ -1,12 +1,12 @@
 <template>
   <Card title="快捷导航" v-bind="$attrs">
-    <template v-for="item in navItems" :key="item">
-      <CardGrid>
+    <template v-for="item in navItems" :key="item.title">
+      <Card.Grid class="cursor-pointer" @click="go(item.url)">
         <span class="flex flex-col items-center">
           <Icon :icon="item.icon" :color="item.color" size="20" />
           <span class="text-md mt-2">{{ item.title }}</span>
         </span>
-      </CardGrid>
+      </Card.Grid>
     </template>
   </Card>
 </template>
@@ -14,6 +14,7 @@
   import { Card } from 'ant-design-vue';
   import { navItems } from './Data';
   import { Icon } from '@jeesite/core/components/Icon';
+  import { useGo } from '@jeesite/core/hooks/web/usePage';
 
-  const CardGrid = Card.Grid;
+  const go = useGo();
 </script>

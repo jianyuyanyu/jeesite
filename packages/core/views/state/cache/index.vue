@@ -244,6 +244,7 @@
     .ant-table-tbody > tr {
       cursor: pointer;
     }
+
     .jeesite-basic-form-box {
       background: white;
       border-radius: 5px;
@@ -269,6 +270,7 @@
       }
     }
   }
+
   html[data-theme='dark'] {
     .jeesite-state-cache {
       .jeesite-basic-form-box {

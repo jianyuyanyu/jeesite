@@ -5,12 +5,14 @@ interface GroupItem {
   desc: string;
   date: string;
   group: string;
+  url: string;
 }
 
 interface NavItem {
   title: string;
   icon: string;
   color: string;
+  url: string;
 }
 
 interface DynamicInfoItem {
@@ -22,34 +24,40 @@ interface DynamicInfoItem {
 
 export const navItems: NavItem[] = [
   {
-    title: '首页',
-    icon: 'i-ion:home-outline',
-    color: '#1fdaca',
-  },
-  {
-    title: '仪表盘',
-    icon: 'i-ion:grid-outline',
+    title: 'HR 看板',
+    icon: 'i-ant-design:bar-chart-outlined',
     color: '#bf0c2c',
+    url: '/desktop/about',
   },
   {
-    title: '组件',
-    icon: 'i-ion:layers-outline',
+    title: '待办任务',
+    icon: 'i-simple-line-icons:envelope-letter',
+    color: '#1fdaca',
+    url: '/bpm/bpmMyTask/todoList',
+  },
+  {
+    title: '角色管理',
+    icon: 'i-simple-line-icons:people',
     color: '#e18525',
+    url: '/sys/role/list',
   },
   {
-    title: '系统管理',
-    icon: 'i-ion:settings-outline',
+    title: '菜单管理',
+    icon: 'i-simple-line-icons:book-open',
     color: '#3fb27f',
+    url: '/sys/menu/index',
   },
   {
     title: '权限管理',
-    icon: 'i-ant-design:key-outlined',
+    icon: 'i-simple-line-icons:social-dropbox',
     color: '#4daf1bc9',
+    url: '/sys/role/list',
   },
   {
-    title: '图表',
+    title: '统计分析',
     icon: 'i-ion:bar-chart-outline',
     color: '#00d8ff',
+    url: '/desktop/about',
   },
 ];
 
@@ -112,6 +120,7 @@ export const groupItems: GroupItem[] = [
     desc: '不要等待机会，而要创造机会。',
     group: '开源组',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
   {
     title: 'Vue',
@@ -120,6 +129,7 @@ export const groupItems: GroupItem[] = [
     desc: '现在的你决定将来的你。',
     group: '前端组',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
   {
     title: 'Html5',
@@ -128,6 +138,7 @@ export const groupItems: GroupItem[] = [
     desc: '没有什么才能比努力更重要。',
     group: '上班摸鱼',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
   {
     title: 'Java',
@@ -136,6 +147,7 @@ export const groupItems: GroupItem[] = [
     desc: '热情和欲望可以突破一切难关。',
     group: '算法组',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
   {
     title: 'Spring',
@@ -144,6 +156,7 @@ export const groupItems: GroupItem[] = [
     desc: '健康的身体是实目标的基石。',
     group: '技术牛',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
   {
     title: 'JeeSite',
@@ -152,5 +165,6 @@ export const groupItems: GroupItem[] = [
     desc: '路是走出来的，而不是空想出来的。',
     group: '架构组',
     date: '2021-09-01',
+    url: '/desktop/about',
   },
 ];
