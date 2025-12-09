@@ -28,7 +28,11 @@
                 <span v-else class="flex-1 truncate">{{ item.title }}</span>
                 <span class="actions c-gray">
                   <Icon icon="i-ant-design:edit" class="pt-3" @click="handleEdit(item, true)" />
-                  <Popconfirm :title="t('是否确认删除该对话吗？')" @confirm="handleDelete(item, index)">
+                  <Popconfirm
+                    :title="t('是否确认删除该对话吗？')"
+                    @confirm="handleDelete(item, index)"
+                    :disabled="loading"
+                  >
                     <Icon icon="i-ant-design:delete" class="pt-3" />
                   </Popconfirm>
                 </span>
@@ -124,15 +128,6 @@
 
   onMounted(async () => {
     chatList.value = await cmsChatList();
-    if (chatList.value.length == 0) {
-      const res = await cmsChatSave();
-      chatList.value.unshift(res);
-    }
-    // await nextTick(async () => {
-    //   setTimeout(async () => {
-    //     await handleSelect(chatList.value[0]);
-    //   }, 100);
-    // });
   });
 
   async function handleAdd() {
@@ -163,6 +158,7 @@
   }
 
   async function handleEdit(item: Recordable, edit: boolean, event?: Event) {
+    if (loading.value) return;
     item.edit = edit;
     if (edit) {
       await nextTick(() => {
