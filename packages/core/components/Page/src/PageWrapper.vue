@@ -141,17 +141,18 @@
     contentBackground: propTypes.bool.def(true),
     contentFullHeight: propTypes.bool,
     contentMinHeight: propTypes.number.def(300),
+    contentMinWidth: propTypes.number.def(300), // 防止侧边栏拖拽过大，导致内容宽度过小
     contentClass: propTypes.string,
     fixedHeight: propTypes.bool.def(true),
     upwardSpace: propTypes.oneOfType([propTypes.number, propTypes.string]).def(0),
 
     sidebarWidth: propTypes.number.def(230),
     sidebarResizer: propTypes.bool.def(true),
-    sidebarMinWidth: propTypes.number.def(0),
+    sidebarMinWidth: propTypes.number.def(160),
 
     sidebarWidthRight: propTypes.number.def(230),
     sidebarResizerRight: propTypes.bool.def(true),
-    sidebarMinWidthRight: propTypes.number.def(0),
+    sidebarMinWidthRight: propTypes.number.def(160),
   });
 
   const slots = useSlots();
@@ -301,9 +302,34 @@
     },
   );
 
+  const lastValidOffsetX = ref(0);
   const getSidebarWidth = computed(() => {
-    const width = props.sidebarWidth + offsetXMoved.value - 12;
-    return width < props.sidebarMinWidth ? props.sidebarMinWidth : width;
+    const contentEl = unref(contentRef) as any;
+    if (!contentEl) {
+      return props.sidebarWidth;
+    }
+
+    const content = contentEl.querySelector('.ant-layout-content') as HTMLElement | null;
+    if (!content) {
+      return props.sidebarWidth;
+    }
+
+    let tentativeWidth = props.sidebarWidth + offsetXMoved.value - 12;
+    tentativeWidth = Math.max(tentativeWidth, props.sidebarMinWidth);
+
+    // 如果当前 content 已经过窄，且用户还在试图拉宽 sidebar，则阻止
+    if (content.offsetWidth <= props.contentMinWidth) {
+      if (offsetXMoved.value > lastValidOffsetX.value) {
+        tentativeWidth = props.sidebarWidth + lastValidOffsetX.value - 12;
+        tentativeWidth = Math.max(tentativeWidth, props.sidebarMinWidth);
+      } else {
+        lastValidOffsetX.value = offsetXMoved.value;
+      }
+    } else {
+      lastValidOffsetX.value = offsetXMoved.value;
+    }
+
+    return tentativeWidth;
   });
 
   function onBreakpoint(broken: boolean) {
@@ -402,9 +428,15 @@
           overflow: hidden;
           border-radius: 4px;
 
-          .jeesite-basic-tree-header {
-            padding: 10px 6px;
-            min-height: 44px;
+          .jeesite-basic-tree {
+            //&.h-full {
+            //  height: calc(100% - 12px);
+            //}
+
+            &-header {
+              padding: 10px 6px;
+              min-height: 44px;
+            }
           }
         }
 
@@ -451,6 +483,12 @@
           }
         }
       }
+
+      //&-content {
+      //  & > .h-full {
+      //    height: calc(100% - 12px);
+      //  }
+      //}
     }
   }
 
