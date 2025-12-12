@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * No deletion without permission, or be held responsible to law.
+ * @author Vben、ThinkGem
+ */
 import type { ModalFunc, ModalFuncProps } from 'ant-design-vue/lib/modal/Modal';
 
 import { Modal, message as Message, notification } from 'ant-design-vue';

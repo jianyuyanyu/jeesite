@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * No deletion without permission, or be held responsible to law.
+ * @author Vben、ThinkGem
+ */
 import { computed, unref } from 'vue';
 
 import { useAppStore } from '@jeesite/core/store/modules/app';
@@ -14,13 +19,14 @@ export const useFullContent = () => {
 
   // Whether to display the content in full screen without displaying the menu
   const getFullContent = computed(() => {
-    // Query parameters, the full screen is displayed when the address bar has a full parameter
     const route = unref(currentRoute);
+    if (route.path.includes('__full__')) {
+      return true;
+    }
     const query = route.query;
     if (query && Reflect.has(query, '__full__')) {
       return true;
     }
-    // Return to the configuration in the configuration file
     return appStore.getProjectConfig.fullContent;
   });
 
