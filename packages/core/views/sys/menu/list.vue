@@ -119,10 +119,24 @@
       width: 130,
     },
     {
+      title: t('目标'),
+      dataIndex: 'menuTarget',
+      align: 'center',
+      width: 80,
+      defaultHidden: true,
+    },
+    {
       title: t('组件'),
       dataIndex: 'component',
       align: 'center',
       width: 80,
+    },
+    {
+      title: t('参数'),
+      dataIndex: 'params',
+      align: 'center',
+      width: 80,
+      defaultHidden: true,
     },
     {
       title: t('排序号'),
