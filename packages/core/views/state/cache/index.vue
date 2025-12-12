@@ -256,6 +256,12 @@
         min-height: 44px;
         padding: 5px 2px 5px 7px;
 
+        &::after {
+          content: ' ';
+          display: table;
+          clear: both;
+        }
+
         > .anticon {
           color: @primary-color;
         }
