@@ -119,6 +119,8 @@
         '　11、userCache 中的 Key 可作为变量名',
         '　12、yml 或 sys_config 中的 Key 可作为变量名',
         '　13、上述没有的变量，交由 Vue 路由，详见 params.vue ',
+        '四、其他技巧：',
+        '　1、地址添加 ?__full__ 参数，目标为 __blank，支持新窗口全屏打开。',
       ],
       component: 'Input',
       componentProps: {
@@ -145,7 +147,7 @@
         '　1、填写 IFRAME 则强制使用 iframe 打开链接',
         '　2、填写 LAYOUT 将不在 Beetl 视图中显示菜单项',
         '　3、填写 BEETL 则只在 Beetl 视图中显示菜单项',
-        '　4、填写 BLANK 则不显示主框架（仅顶部菜单设置即可）',
+        '　4、填写 BLANK 则不显示主框架（仅顶部菜单设置）',
       ],
       component: 'Input',
       componentProps: {
