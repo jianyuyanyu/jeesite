@@ -4,7 +4,7 @@
  * @author ThinkGem
 -->
 <template>
-  <PageWrapper :sidebarWidth="230" :contentFullHeight="true" :contentMinHeight="400">
+  <PageWrapper :sidebarWidth="200" :contentFullHeight="true" :contentMinHeight="400">
     <template #sidebar>
       <div class="p-2 pt-1">
         <a-button type="primary" class="w-full" @click="handleAdd" :disabled="loading">

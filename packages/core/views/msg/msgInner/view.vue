@@ -4,7 +4,7 @@
   * @author ThinkGem
 -->
 <template>
-  <PageWrapper :sidebarWidth="230" title="false">
+  <PageWrapper :sidebarWidth="200" title="false">
     <div class="jeesite-msg-title mb-5 ml-2 mr-2 pb-6 pt-4 text-center text-xl">
       {{ record.msgTitle }}
     </div>

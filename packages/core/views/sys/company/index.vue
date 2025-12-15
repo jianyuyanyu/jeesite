@@ -4,7 +4,7 @@
  * @author ThinkGem
 -->
 <template>
-  <PageWrapper :sidebarWidth="230">
+  <PageWrapper :sidebarWidth="200">
     <template #sidebar>
       <BasicTree
         :title="t('公司')"

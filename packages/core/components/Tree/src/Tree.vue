@@ -659,15 +659,19 @@
         //}
       }
 
-      &.ant-tree-directory {
-        .ant-tree-treenode:hover::before {
-          background-color: transparent;
-        }
+      .ant-tree-indent-unit {
+        width: 18px;
+      }
 
+      &.ant-tree-directory {
         .ant-tree-treenode {
+          &:hover::before {
+            background-color: transparent;
+          }
+
           .ant-tree-switcher {
             color: fade(@text-color-base, 70);
-            width: 20px;
+            width: 18px;
           }
 
           .ant-tree-switcher-icon svg {
