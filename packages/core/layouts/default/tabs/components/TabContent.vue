@@ -38,7 +38,7 @@
 
       const getIcon = computed(() => {
         const { tabItem: { meta } = {} } = props;
-        return meta && t(meta.tabIcon as string);
+        return meta && t((meta.tabIcon as string) || (meta.icon as string));
       });
 
       const getTitle = computed(() => {
