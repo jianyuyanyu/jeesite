@@ -6,7 +6,7 @@
 @menu-dark-subsidiary-color: rgba(255, 255, 255, 0.7);
 
 .light-border {
-  border-radius: 6px; // 2
+  border-radius: 10px; // 2
 
   // &::after { // 1
   //   position: absolute;
@@ -103,7 +103,6 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    font-size: @font-size-base;
     color: fade(@text-color-base, 75);
     list-style: none;
     outline: none;
@@ -140,7 +139,6 @@
       position: relative;
       z-index: 1;
       display: flex;
-      font-size: @font-size-base;
       color: inherit;
       list-style: none;
       cursor: pointer;
@@ -284,7 +282,7 @@
     &-dark&-vertical &-item,
     &-dark&-vertical &-submenu-title {
       color: @menu-dark-subsidiary-color;
-      border-radius: 6px; // 2
+      border-radius: 10px; // 2
 
       &-active:not(.@{menu-prefix-cls}-submenu) {
         color: #fff !important;
@@ -306,7 +304,7 @@
         color: #fff !important;
         // background-color: @sider-dark-darken-bg-color !important; // 1
         background-color: fade(@primary-color, 50) !important; // 2
-        border-radius: 6px; // 2
+        border-radius: 10px; // 2
 
         // &::before { // 1
         //   position: absolute;
