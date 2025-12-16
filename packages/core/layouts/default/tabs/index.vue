@@ -17,7 +17,6 @@
           </template>
         </TabPane>
       </template>
-
       <template #rightExtra v-if="getShowRedo || getShowQuick || getShowFold">
         <TabRedo v-if="getShowRedo" />
         <TabContent isExtra :tabItem="route" v-if="getShowQuick" />

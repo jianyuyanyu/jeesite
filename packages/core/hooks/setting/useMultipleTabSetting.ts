@@ -9,7 +9,7 @@ export function useMultipleTabSetting() {
 
   const getShowMultipleTab = computed(() => appStore.getMultiTabsSetting.show);
 
-  const getTabsStyle = computed(() => appStore.getMultiTabsSetting.style);
+  const getTabsStyle = computed(() => '3');
 
   const getShowQuick = computed(() => appStore.getMultiTabsSetting.showQuick);
 

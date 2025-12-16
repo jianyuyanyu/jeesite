@@ -3,7 +3,7 @@
   * No deletion without permission, or be held responsible to law.
   * @author Vben、ThinkGem
   */
-@prefix-cls-3: ~'jeesite-multiple-tabs-3';
+@prefix-cls-3: ~'jeesite-multiple-tabs-3'; // Tabs style
 @multiple-height-large: 40px; // TABS_HEIGHT_LARGE
 
 .@{prefix-cls-3} {
@@ -29,7 +29,7 @@
         color: @text-color-base;
         background-color: @component-background;
         transition: none;
-        border-radius: 4px !important;
+        border-radius: 7px !important;
         margin: 12px 0 0;
         padding-left: 10px;
         padding-right: 11px;
@@ -46,7 +46,7 @@
 
         .anticon {
           opacity: 0.8;
-          font-size: 16px;
+          font-size: 13px;
           text-align: center;
           margin-right: 5px;
 
@@ -63,6 +63,8 @@
           padding: 0;
 
           .anticon {
+            font-size: 16px;
+
             svg {
               width: 0.6em;
             }
@@ -76,33 +78,25 @@
 
       .ant-tabs-tab:not(.ant-tabs-tab-active) {
         &:hover {
-          color: @primary-color;
+          .ant-tabs-tab-btn {
+            color: @primary-color;
+          }
         }
       }
 
       .ant-tabs-tab-active {
         position: relative;
-        // padding-left: 18px;
-        color: @white !important;
-        // color: @primary-color !important;
         background: fade(@primary-color, 90);
-        // border-color: fade(@primary-color, 25);
-        // height: calc(@multiple-height-large - 2px);
         border: 0;
         transition: none;
         text-shadow: none;
 
-        // span {
-        //   color: @white !important;
-        // }
         .ant-tabs-tab-btn {
           color: @white !important;
           text-shadow: none;
         }
 
         .ant-tabs-tab-remove {
-          opacity: 1;
-
           svg {
             fill: @white;
           }
@@ -158,13 +152,13 @@
     &__extra-fold {
       display: inline-block;
       width: 30px;
-      // height: @multiple-height-large;
-      // line-height: @multiple-height-large;
+      //height: @multiple-height-large;
+      //line-height: @multiple-height-large;
       padding-top: 7px;
       color: @text-color-secondary;
       text-align: center;
       cursor: pointer;
-      // border-left: 1px solid @header-light-bottom-border-color;
+      //border-left: 1px solid @header-light-bottom-border-color;
 
       &:hover {
         color: @text-color-base;
@@ -227,9 +221,10 @@ html[data-theme='dark'] {
           svg {
             fill: #aaa !important;
           }
+        }
 
-          &:hover,
-          .ant-tabs-tab-btn:hover {
+        .ant-tabs-tab:not(.ant-tabs-tab-active) {
+          &:hover {
             color: #ddd !important;
           }
         }
