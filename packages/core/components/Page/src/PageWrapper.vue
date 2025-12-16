@@ -363,7 +363,7 @@
       // margin: 16px;
       padding: 12px;
       margin-bottom: 13px;
-      border-radius: 5px;
+      border-radius: 10px;
       color: @text-color-base;
       overflow-y: auto;
     }
@@ -372,7 +372,7 @@
       // margin: 16px;
       margin-bottom: 12px;
       padding: 4px 16px;
-      border-radius: 5px;
+      border-radius: 10px;
 
       .ant-page-header-heading-title {
         font-size: 16px;
@@ -426,7 +426,7 @@
           //height: calc(100% - 14px);
           height: 100%;
           overflow: hidden;
-          border-radius: 4px;
+          border-radius: 10px;
 
           .jeesite-basic-tree {
             //&.h-full {
