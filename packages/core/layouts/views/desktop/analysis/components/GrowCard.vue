@@ -84,7 +84,7 @@
         total: 99999,
         color: 'purple',
         action: '月',
-        url: 'http://jeesite.com',
+        url: 'https://jeesite.com',
       },
     ];
     // 此处写后端 API 获取 list 数据

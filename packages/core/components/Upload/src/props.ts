@@ -8,7 +8,7 @@ import { DEFAULT_SIZE } from '@jeesite/core/components/Table/src/const';
 type UploadType = 'image' | 'media' | 'file' | 'all';
 
 /**
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * Copyright (c) 2013-Now https://jeesite.com All rights reserved.
  * No deletion without permission, or be held responsible to law.
  * @author ThinkGem
  */

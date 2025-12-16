@@ -1,5 +1,5 @@
 <!--
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * Copyright (c) 2013-Now https://jeesite.com All rights reserved.
  * No deletion without permission, or be held responsible to law.
  * @description 树结构生成封装兼容并统一多种数据格式
  * @author Vben、ThinkGem

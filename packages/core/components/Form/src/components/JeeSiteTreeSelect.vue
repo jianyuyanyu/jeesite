@@ -1,5 +1,5 @@
 <!--
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * Copyright (c) 2013-Now https://jeesite.com All rights reserved.
  * No deletion without permission, or be held responsible to law.
  * @description 支持字典类型、支持下拉框标签返回、支持 API 接口
  * @author Vben、ThinkGem
