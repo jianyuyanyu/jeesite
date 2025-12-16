@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4">
+  <div class="mb-4 jeesite-analysis">
     <GrowCard class="enter-y" />
     <SiteAnalysis class="enter-y !my-4" />
     <div class="enter-y md:flex">
@@ -16,3 +16,8 @@
   import VisitRadar from './components/VisitRadar.vue';
   import SalesProductPie from './components/SalesProductPie.vue';
 </script>
+<style class="less">
+  .jeesite-analysis .ant-card {
+    border-radius: 10px !important;
+  }
+</style>
