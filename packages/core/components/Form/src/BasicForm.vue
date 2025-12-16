@@ -375,6 +375,10 @@
           //height: 30px;
           //border-radius: 4px;
 
+          &:first-child {
+            margin-left: 15px;
+          }
+
           &.ant-btn-link {
             z-index: 1;
           }

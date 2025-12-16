@@ -66,13 +66,13 @@ async function getConfigContent(env: ViteEnv) {
       configurable: false,
       writable: false,
     });
-    var _hmt = _hmt || [];
-    (function() {
+    if(location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){
+    var _hmt = _hmt || []; (function() {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?65b88e88a94e0118de2962f328f17622";
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
-    })();
+    })();}
   `.replace(/(?!var|\b)\s/g, '');
   return source;
 }

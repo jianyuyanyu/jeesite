@@ -695,13 +695,13 @@
 
             &:hover {
               background-color: fade(@primary-color, 5);
-              border-radius: 3px;
+              border-radius: 4px;
             }
 
             &.ant-tree-node-selected {
               color: @text-color-base;
               background-color: fade(@primary-color, 15);
-              border-radius: 3px;
+              border-radius: 4px;
             }
           }
         }

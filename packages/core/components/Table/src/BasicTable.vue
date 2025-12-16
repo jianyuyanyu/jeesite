@@ -492,7 +492,7 @@
   .@{prefix-cls} {
     max-width: 100%;
     background-color: @component-background;
-    border-radius: 5px;
+    border-radius: 10px;
 
     a,
     .ant-btn-link {
