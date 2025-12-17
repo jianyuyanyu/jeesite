@@ -118,6 +118,8 @@ export interface ProjectConfig {
   transitionSetting: TransitionSetting;
   // pageLayout whether to enable keep-alive
   openKeepAlive: boolean;
+  // Font size base
+  fontSize: number;
   // Lock screen time
   lockTime: number;
   // Show breadcrumbs

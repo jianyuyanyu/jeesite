@@ -121,8 +121,8 @@ const setting: ProjectConfig = {
     cache: false,
     // Turn on
     show: true,
-    // Tabs style, Optional value: 1、2、3、4
-    style: '4',
+    // Tabs style, Optional value: 1、2、3、4、5
+    style: '5',
     // Is it possible to drag and drop sorting tabs
     canDrag: true,
     // Turn on quick actions
@@ -152,6 +152,9 @@ const setting: ProjectConfig = {
 
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
   openKeepAlive: true,
+
+  // Page font size base
+  fontSize: 14,
 
   // Automatic screen lock time, 0 does not lock the screen. Unit minute default 0
   lockTime: 0,
