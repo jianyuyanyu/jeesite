@@ -68,19 +68,19 @@ export default {
   },
   login: {
     backSignIn: '返回',
-    signInFormTitle: '登录',
+    signInFormTitle: '账号登录',
     mobileSignInFormTitle: '手机登录',
     qrSignInFormTitle: '二维码登录',
-    signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
+    signUpFormTitle: '注册账号',
 
     signInTitle: 'JeeSite 是当前最好用的快速开发平台',
     signInDesc: 'JeeSite 是一个专业的平台，是一个让你使用放心的平台。',
     policy: '我同意 JeeSite 隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 
-    loginButton: '登录',
-    registerButton: '注册',
+    loginButton: '立即登录',
+    registerButton: '注册账号',
     rememberMe: '记住我',
     forgetPassword: '忘记密码?',
     otherSignIn: '其他登录方式',

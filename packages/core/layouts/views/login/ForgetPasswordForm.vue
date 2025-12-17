@@ -1,5 +1,5 @@
 <template>
-  <template v-if="getShow">
+  <div v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="enter-x p-4" :model="formData" :rules="getFormRules" ref="formRef">
       <FormItem name="validType" class="enter-x">
@@ -78,7 +78,7 @@
         </Button>
       </FormItem>
     </Form>
-  </template>
+  </div>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, computed, unref } from 'vue';

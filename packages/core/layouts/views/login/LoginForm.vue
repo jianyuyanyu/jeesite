@@ -1,106 +1,86 @@
 <template>
-  <LoginFormTitle v-show="getShow" class="enter-x" />
-  <Form
-    class="enter-x p-4"
-    :model="formData"
-    :rules="getFormRules"
-    ref="formRef"
-    v-show="getShow"
-    @keypress.enter="handleLogin"
-  >
-    <div class="mb-5"></div>
-    <FormItem name="account" class="enter-x">
-      <Input
-        size="large"
-        v-model:value="formData.account"
-        :placeholder="t('sys.login.account')"
-        class="fix-auto-fill"
-      />
-    </FormItem>
-    <FormItem name="password" class="enter-x">
-      <InputPassword
-        size="large"
-        visibilityToggle
-        v-model:value="formData.password"
-        :placeholder="t('sys.login.password')"
-        autocomplete="off"
-      />
-    </FormItem>
-    <FormItem v-if="validCodeRefreshTime" name="validCode" class="enter-x valid-code">
-      <ValidCode size="large" v-model:value="formData.validCode" :refreshTime="validCodeRefreshTime" />
-    </FormItem>
+  <div v-if="getShow">
+    <Form class="enter-x p-4" :model="formData" :rules="getFormRules" ref="formRef" @keypress.enter="handleLogin">
+      <div class="font-size mb-5 text-center font-size-4 text-red">
+        <div v-if="demoMode">
+          💡提示：当前您连接的后端服务，可能是
+          <a class="!text-red" href="https://vue.jeesite.com" target="_blank"> vue.jeesite.com </a> <br />
+          这是一个演示服务器，请进入文档：《
+          <a
+            class="!text-red"
+            href="https://jeesite.com/docs/vue-install-deploy/#%E9%85%8D%E7%BD%AE%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3"
+            target="_blank"
+          >
+            配置服务端接口
+          </a>
+          》
+        </div>
+      </div>
+      <FormItem name="account" class="enter-x">
+        <Input
+          size="large"
+          v-model:value="formData.account"
+          :placeholder="t('sys.login.account')"
+          class="fix-auto-fill"
+        />
+      </FormItem>
+      <FormItem name="password" class="enter-x">
+        <InputPassword
+          size="large"
+          visibilityToggle
+          v-model:value="formData.password"
+          :placeholder="t('sys.login.password')"
+          autocomplete="off"
+        />
+      </FormItem>
+      <FormItem v-if="validCodeRefreshTime" name="validCode" class="enter-x valid-code">
+        <ValidCode size="large" v-model:value="formData.validCode" :refreshTime="validCodeRefreshTime" />
+      </FormItem>
 
-    <div class="gp" v-if="demoMode">
-      💡提示：当前您连接的后端服务，可能是
-      <a href="https://vue.jeesite.com" target="_blank">vue.jeesite.com</a><br />
-      &nbsp; &nbsp; 的演示服务器，请进入文档：《
-      <a
-        href="https://jeesite.com/docs/vue-install-deploy/#%E9%85%8D%E7%BD%AE%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3"
-        target="_blank"
-      >
-        配置服务端接口
-      </a>
-      》
-    </div>
+      <ARow class="enter-x">
+        <ACol :span="12">
+          <FormItem>
+            <!-- No logic, you need to deal with it yourself -->
+            <Checkbox v-model:checked="rememberMe" size="small">
+              {{ t('sys.login.rememberMe') }}
+            </Checkbox>
+          </FormItem>
+        </ACol>
+        <ACol :span="12">
+          <FormItem :style="{ 'text-align': 'right' }">
+            <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
+              {{ t('sys.login.forgetPassword') }}
+            </Button>
+            <!--<Button type="link" size="small" @click="setLoginState(LoginStateEnum.REGISTER)">
+              {{ t('sys.login.registerButton') }}
+            </Button>-->
+          </FormItem>
+        </ACol>
+      </ARow>
 
-    <ARow class="enter-x">
-      <ACol :span="12">
-        <FormItem>
-          <!-- No logic, you need to deal with it yourself -->
-          <Checkbox v-model:checked="rememberMe" size="small">
-            {{ t('sys.login.rememberMe') }}
-          </Checkbox>
-        </FormItem>
-      </ACol>
-      <ACol :span="12">
-        <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
-          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
-            {{ t('sys.login.forgetPassword') }}
-          </Button>
-        </FormItem>
-      </ACol>
-    </ARow>
-
-    <FormItem class="enter-x">
-      <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
-        {{ t('sys.login.loginButton') }}
-      </Button>
-      <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
-        {{ t('sys.login.registerButton') }}
-      </Button> -->
-    </FormItem>
-    <ARow class="enter-x md:pl-3">
-      <ACol :md="7" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
+      <FormItem class="enter-x">
+        <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
+          {{ t('sys.login.loginButton') }}
         </Button>
-      </ACol>
-      <ACol :md="8" :xs="24" class="xs:mx-0 !my-2 md:mx-2 !md:my-0">
-        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="7" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
+        <Button size="large" class="mt-4 enter-x" block @click="setLoginState(LoginStateEnum.REGISTER)">
           {{ t('sys.login.registerButton') }}
         </Button>
-      </ACol>
-    </ARow>
+      </FormItem>
 
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
+      <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
 
-    <div class="enter-x flex justify-evenly" :class="`${prefixCls}-sign-in-way`">
-      <Icon icon="i-simple-icons:gitee" color="#d81e06" size="28" @click="handleOauth2" />
-      <Icon icon="i-ant-design:qq-circle-filled" color="#2178e3" size="32" @click="handleOauth2" />
-      <Icon icon="i-ant-design:wechat-filled" color="#2eb60d" size="32" @click="handleOauth2" />
-      <Icon icon="i-ant-design:github-filled" color="#2c2c2c" size="32" @click="handleOauth2" />
-      <a href="https://gitee.com/thinkgem/jeesite-client" target="_blank">
-        <Icon icon="i-ant-design:windows-filled" size="32" style="vertical-align: middle" />
-        <span class="pl-1" style="vertical-align: middle"> {{ t('客户端下载') }}</span>
-      </a>
-    </div>
-  </Form>
+      <div class="enter-x flex justify-evenly" :class="`${prefixCls}-sign-in-way`">
+        <Icon icon="i-simple-icons:gitee" color="#d81e06" size="28" @click="handleOauth2" />
+        <Icon icon="i-ant-design:qq-circle-filled" color="#2178e3" size="32" @click="handleOauth2" />
+        <Icon icon="i-ant-design:wechat-filled" color="#2eb60d" size="32" @click="handleOauth2" />
+        <Icon icon="i-ant-design:github-filled" color="#2c2c2c" size="32" @click="handleOauth2" />
+        <a href="https://gitee.com/thinkgem/jeesite-client" target="_blank" style="padding-top: 5px">
+          <Icon icon="i-ant-design:windows-filled" size="32" style="vertical-align: middle" />
+          <span class="pl-1" style="vertical-align: middle"> {{ t('客户端下载') }}</span>
+        </a>
+      </div>
+    </Form>
+  </div>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, toRaw, unref, computed, onMounted } from 'vue';
@@ -224,14 +204,3 @@
     event.preventDefault();
   }
 </script>
-<style>
-  .gp {
-    padding-bottom: 15px;
-    font-size: 16px;
-  }
-
-  .gp,
-  .gp a {
-    color: #d21919;
-  }
-</style>

@@ -26,5 +26,9 @@ export default {
   notYetRealized: '暂未实现',
   validateError: '您填写的信息有误，请根据提示修正。',
 
+  settingsSave: '您的设置已缓存到本地',
+  settingsReset: '您的设置已重置',
+
+  comma: '，',
   selectedItems: '当前已选择 {0} 项',
 };

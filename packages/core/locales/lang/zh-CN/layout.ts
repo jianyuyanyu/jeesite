@@ -34,6 +34,7 @@ export default {
     closeRight: '关闭右侧标签页',
     closeOther: '关闭其它标签页',
     closeAll: '关闭全部标签页',
+    newWindow: '新窗口打开页面',
   },
   setting: {
     // content mode
@@ -107,6 +108,8 @@ export default {
     switchLoading: '切换loading',
     switchAnimation: '切换动画',
     animationType: '动画类型',
+
+    fontSize: '字体大小(基准)',
 
     autoScreenLock: '自动锁屏',
     notAutoScreenLock: '不自动锁屏',

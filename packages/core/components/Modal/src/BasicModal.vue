@@ -299,12 +299,14 @@
           0 4px 8px 0 rgb(0 0 0 / 20%),
           0 6px 20px 0 rgb(0 0 0 / 19%);
         padding: 0;
+        border-radius: 10px;
       }
 
       &-header {
         padding: 14px;
         margin-bottom: 0;
         border-bottom: 1px solid fade(@border-color-base, 50%);
+        border-radius: 10px 10px 0 0;
       }
 
       &-footer {

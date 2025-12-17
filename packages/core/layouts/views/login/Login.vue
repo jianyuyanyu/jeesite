@@ -1,11 +1,6 @@
 <template>
   <div :class="prefixCls" class="relative h-full w-full bg-light-400 px-4">
-    <AppLocalePicker
-      class="enter-x absolute right-3 top-6 text-gray-600"
-      :showText="false"
-      v-if="!sessionTimeout && showLocale"
-    />
-    <AppDarkModeToggle class="enter-x absolute right-5 top-5" v-if="!sessionTimeout" />
+    <AppDarkModeToggle class="enter-x absolute right-8 top-5" v-if="!sessionTimeout" />
 
     <span class="-enter-x lg:hidden">
       <AppLogo :alwaysShowTitle="true" />
@@ -31,13 +26,21 @@
         <div class="h-full w-full flex overflow-auto py-5 lg:my-0 lg:h-auto lg:w-11/24 lg:py-0">
           <div
             :class="`${prefixCls}-form`"
-            class="enter-x relative mx-auto my-auto w-full rounded-xl px-5 py-8 shadow-md lg:ml-16 lg:w-2/4 lg:w-auto sm:w-3/4 lg:px-10 lg:py-9 sm:px-8"
+            class="enter-x relative mx-auto my-auto w-full px-5 py-8 shadow-md lg:ml-16 lg:w-2/4 lg:w-auto sm:w-3/4 lg:px-10 lg:py-9 sm:px-8"
           >
-            <LoginForm @demo-mode="demoMode = $event" />
+            <Tabs v-if="getShow" :activeKey="getLoginState" @change="handleChange">
+              <Tabs.TabPane :key="LoginStateEnum.LOGIN" :tab="t('sys.login.signInFormTitle')">
+                <LoginForm @demo-mode="demoMode = $event" />
+              </Tabs.TabPane>
+              <Tabs.TabPane :key="LoginStateEnum.MOBILE" :tab="t('sys.login.mobileSignInFormTitle')">
+                <MobileForm :demoMode="demoMode" />
+              </Tabs.TabPane>
+              <Tabs.TabPane :key="LoginStateEnum.QR_CODE" :tab="t('sys.login.qrSignInFormTitle')">
+                <QrCodeForm :demoMode="demoMode" />
+              </Tabs.TabPane>
+            </Tabs>
             <ForgetPasswordForm :demoMode="demoMode" />
             <RegisterForm :demoMode="demoMode" />
-            <MobileForm :demoMode="demoMode" />
-            <QrCodeForm :demoMode="demoMode" />
           </div>
         </div>
       </div>
@@ -45,17 +48,33 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { computed, ref } from 'vue';
+  import { computed, ref, unref } from 'vue';
   import { AppLogo } from '@jeesite/core/components/Application';
-  import { AppLocalePicker, AppDarkModeToggle } from '@jeesite/core/components/Application';
-  import LoginForm from './LoginForm.vue';
-  import ForgetPasswordForm from './ForgetPasswordForm.vue';
-  import RegisterForm from './RegisterForm.vue';
-  import MobileForm from './MobileForm.vue';
-  import QrCodeForm from './QrCodeForm.vue';
+  import { AppDarkModeToggle } from '@jeesite/core/components/Application';
   import { useGlobSetting } from '@jeesite/core/hooks/setting';
   import { useDesign } from '@jeesite/core/hooks/web/useDesign';
-  import { useLocaleStore } from '@jeesite/core/store/modules/locale';
+  import { Tabs } from 'ant-design-vue';
+  import { useI18n } from '@jeesite/core/hooks/web/useI18n';
+
+  import LoginForm from './LoginForm.vue';
+  import MobileForm from './MobileForm.vue';
+  import QrCodeForm from './QrCodeForm.vue';
+  import ForgetPasswordForm from './ForgetPasswordForm.vue';
+  import RegisterForm from './RegisterForm.vue';
+  import { LoginStateEnum, useLoginState } from './useLogin';
+
+  const { t } = useI18n();
+
+  const { getLoginState, setLoginState } = useLoginState();
+
+  const getShow = computed(() => {
+    const lse = unref(getLoginState);
+    return lse === LoginStateEnum.LOGIN || lse === LoginStateEnum.MOBILE || lse === LoginStateEnum.QR_CODE;
+  });
+
+  function handleChange(key: any) {
+    setLoginState(key);
+  }
 
   /* import { onMounted } from 'vue';
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
@@ -89,8 +108,6 @@
 
   const globSetting = useGlobSetting();
   const { prefixCls } = useDesign('login');
-  const localeStore = useLocaleStore();
-  const showLocale = localeStore.getShowPicker;
   const title = computed(() => globSetting?.title ?? '');
   const demoMode = ref(false);
 </script>
@@ -100,67 +117,47 @@
   @countdown-prefix-cls: ~'jeesite-countdown-input';
   @dark-bg: #293146;
 
-  html[data-theme='dark'] {
-    .@{prefix-cls} {
-      background-color: @dark-bg;
-
-      &::before {
-        background-image: url('@jeesite/assets/svg/login-bg-dark.svg');
-      }
-
-      .ant-input,
-      .ant-input-password {
-        background-color: #232a3b;
-      }
-
-      .ant-btn:not(.ant-btn-link):not(.ant-btn-primary) {
-        border: 1px solid #4a5569;
-      }
-
-      &-form {
-        background: transparent !important;
-        box-shadow: none;
-      }
-
-      .@{logo-prefix-cls} {
-        &__title {
-          color: #eee;
-        }
-      }
-
-      .jeesite-icon {
-        color: #fff;
-      }
-    }
-
-    input.fix-auto-fill,
-    .fix-auto-fill input {
-      -webkit-text-fill-color: #c9d1d9 !important;
-      box-shadow: inherit !important;
-    }
-  }
-
   .@{prefix-cls} {
     min-height: 100%;
     overflow: hidden;
     //background-color: #f2fafd;
-
-    @media (max-width: @screen-lg) {
-      //background-color: #3f60b5;
-
-      .@{prefix-cls}-form {
-        box-shadow: none;
-      }
-    }
 
     &-form {
       top: -20px;
       margin: auto;
       background-color: #fff;
       box-shadow: 0 0 8px #ddd;
+      border-radius: 20px;
 
       .ant-form-item {
         margin-bottom: 15px;
+      }
+
+      .ant-tabs > .ant-tabs-nav {
+        margin-bottom: 10px;
+
+        &::before {
+          border-bottom: 0;
+        }
+
+        .ant-tabs-tab {
+          padding: 0 6px 5px;
+
+          & + .ant-tabs-tab {
+            margin: 0 0 0 15px;
+          }
+
+          .ant-tabs-tab-btn {
+            font-size: 18px;
+            opacity: 0.9;
+          }
+
+          &-active {
+            .ant-tabs-tab-btn {
+              opacity: 1;
+            }
+          }
+        }
       }
     }
 
@@ -264,6 +261,46 @@
     .ant-divider-inner-text {
       font-size: 14px;
       color: @text-color-secondary;
+    }
+  }
+
+  html[data-theme='dark'] {
+    .@{prefix-cls} {
+      background-color: @dark-bg;
+
+      &::before {
+        background-image: url('@jeesite/assets/svg/login-bg-dark.svg');
+      }
+
+      .ant-input,
+      .ant-input-password {
+        background-color: #141822;
+      }
+
+      .ant-btn:not(.ant-btn-link):not(.ant-btn-primary) {
+        border: 1px solid #4a5569;
+      }
+
+      &-form {
+        background: #22283c !important;
+        box-shadow: 0 0 8px #344466;
+      }
+
+      .@{logo-prefix-cls} {
+        &__title {
+          color: #eee;
+        }
+      }
+
+      .jeesite-icon {
+        color: #fff;
+      }
+    }
+
+    input.fix-auto-fill,
+    .fix-auto-fill input {
+      -webkit-text-fill-color: #c9d1d9 !important;
+      box-shadow: inherit !important;
     }
   }
 </style>

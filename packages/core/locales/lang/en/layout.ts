@@ -33,6 +33,7 @@ export default {
     closeRight: 'Close Right',
     closeOther: 'Close Other',
     closeAll: 'Close All',
+    newWindow: 'New Window',
   },
   setting: {
     // content mode
@@ -106,6 +107,8 @@ export default {
     switchLoading: 'Switch Loading',
     switchAnimation: 'Switch animation',
     animationType: 'Animation type',
+
+    fontSize: 'Font Size Base',
 
     autoScreenLock: 'Auto screen lock',
     notAutoScreenLock: 'Not auto lock',

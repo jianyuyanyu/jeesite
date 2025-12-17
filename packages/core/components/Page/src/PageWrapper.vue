@@ -499,6 +499,8 @@
       }
 
       .sidebar {
+        background: #000 !important;
+
         &-open,
         &-close {
           border: 1px solid #555;

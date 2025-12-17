@@ -144,7 +144,7 @@
     .ant-popover-content,
     .ant-popover-inner,
     .ant-menu-horizontal {
-      border-radius: 6px;
+      border-radius: 10px;
       padding: 0;
     }
 

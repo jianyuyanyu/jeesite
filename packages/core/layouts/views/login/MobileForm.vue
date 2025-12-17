@@ -1,8 +1,9 @@
 <template>
-  <template v-if="getShow">
-    <LoginFormTitle class="enter-x" />
-    <div class="gp mb-2 mt-4" v-if="demoMode"> Tip：演示系统未开放手机登录，请联系官方人员获取账号密码。 </div>
+  <div v-if="getShow">
     <Form class="enter-x p-4" :model="formData" :rules="getFormRules" ref="formRef">
+      <div class="font-size mb-5 text-center font-size-4 text-red">
+        <span class="gp" v-if="demoMode"> Tip：演示系统未开放手机登录，请联系官方人员获取账号密码。 </span>
+      </div>
       <FormItem name="mobile" class="enter-x">
         <Input
           size="large"
@@ -41,7 +42,7 @@
         </Button>
       </FormItem>
     </Form>
-  </template>
+  </div>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, computed, unref, toRaw, onMounted } from 'vue';
@@ -56,7 +57,7 @@
   import { Select } from '@jeesite/core/components/Form';
   import { useUserStore } from '@jeesite/core/store/modules/user';
 
-  const props = defineProps({
+  defineProps({
     demoMode: { type: Boolean, default: false },
   });
 
@@ -84,7 +85,10 @@
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.MOBILE);
 
   async function handleSendCodeApi() {
-    const data = await getLoginValidCode(formData);
+    const data = await getLoginValidCode({
+      mobile: formData.mobile,
+      validCode: formData.validCode,
+    });
     showMessage(data.message);
     if (data.result == 'true') {
       if (data.extMessage && data.userList) {

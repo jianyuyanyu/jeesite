@@ -1,5 +1,5 @@
 <template>
-  <template v-if="getShow">
+  <div v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <div class="gp mb-2 mt-4 c-red" v-if="demoMode"> Tip：演示系统无需注册，返回登录页，点击免密登录。 </div>
     <Form class="enter-x p-4" :model="formData" :rules="getFormRules" ref="formRef">
@@ -80,7 +80,7 @@
         {{ t('sys.login.backSignIn') }}
       </Button>
     </Form>
-  </template>
+  </div>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
