@@ -41,7 +41,15 @@
               <div :class="`${prefixCls}__check-item`" v-if="!('ifShow' in item && !item.ifShow)">
                 <DragOutlined class="table-column-drag-icon" />
                 <Checkbox :value="item.value">
-                  {{ item.label }}
+                  <template v-if="Array.isArray(item.label)">
+                    <component v-for="(node, i) in item.label" :is="node" :key="i" />
+                  </template>
+                  <template v-else-if="typeof item.label === 'object' && item.label !== null">
+                    <component :is="item.label" />
+                  </template>
+                  <template v-else>
+                    {{ item.label }}
+                  </template>
                 </Checkbox>
                 <Tooltip placement="left" :mouseLeaveDelay="0.4" :getPopupContainer="getPopupContainer">
                   <template #title>
