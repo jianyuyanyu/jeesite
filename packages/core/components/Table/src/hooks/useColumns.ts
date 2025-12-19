@@ -1,6 +1,6 @@
 import type { BasicColumn, BasicTableProps, CellFormat, GetColumnsParams } from '../types/table';
 import type { PaginationProps } from '../types/pagination';
-import { ComputedRef, h } from 'vue';
+import { ComputedRef, h, watchEffect } from 'vue';
 import { Ref, ref, reactive, toRaw, unref, watch } from 'vue';
 import { renderEditCell } from '../components/editable';
 import { usePermission } from '@jeesite/core/hooks/web/usePermission';
@@ -147,6 +147,8 @@ function handleActionColumn(propsRef: ComputedRef<BasicTableProps>, columns: Bas
   const { actionColumn } = unref(propsRef);
   if (!actionColumn) return;
 
+  if (!isIfShow(actionColumn)) return;
+
   const { t } = useI18n();
   const hasIndex = columns.findIndex((column) => column.flag === ACTION_COLUMN_FLAG);
   if (hasIndex === -1) {
@@ -161,6 +163,20 @@ function handleActionColumn(propsRef: ComputedRef<BasicTableProps>, columns: Bas
       flag: ACTION_COLUMN_FLAG,
     });
   }
+}
+
+function isIfShow(column: BasicColumn): boolean {
+  const ifShow = column.ifShow;
+
+  let isIfShow = true;
+
+  if (isBoolean(ifShow)) {
+    isIfShow = ifShow;
+  }
+  if (isFunction(ifShow)) {
+    isIfShow = ifShow(column);
+  }
+  return isIfShow;
 }
 
 export function useColumns(
@@ -178,12 +194,11 @@ export function useColumns(
   const dictTypesRef: Ref<Set<string>> = ref([] as unknown as Set<string>);
   const updateColumnsDebounceFn = useDebounceFn(updateColumnsRef, 100);
 
-  watch(
-    () => unref(propsRef),
-    async () => {
-      await updateColumnsDebounceFn();
-    },
-  );
+  watchEffect(() => {
+    const props = unref(propsRef);
+    props.actionColumn && isIfShow(props.actionColumn);
+    updateColumnsDebounceFn();
+  });
 
   function updateColumnsRef() {
     // const columns = cloneDeep(unref(columnsRef)); // 暂且注释，克隆会导致拖拽失效
@@ -251,20 +266,6 @@ export function useColumns(
         });
     }
     getViewColumns.value = buildColumns(columns) as unknown as BasicColumn[];
-  }
-
-  function isIfShow(column: BasicColumn): boolean {
-    const ifShow = column.ifShow;
-
-    let isIfShow = true;
-
-    if (isBoolean(ifShow)) {
-      isIfShow = ifShow;
-    }
-    if (isFunction(ifShow)) {
-      isIfShow = ifShow(column);
-    }
-    return isIfShow;
   }
 
   watch(
