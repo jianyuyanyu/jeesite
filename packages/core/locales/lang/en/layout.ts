@@ -4,6 +4,7 @@ export default {
     dropdownItemDoc: 'Document',
     dropdownItemLoginOut: 'Login Out',
 
+    // tooltip
     tooltipErrorLog: 'Error log',
     tooltipLock: 'Lock screen',
     tooltipNotify: 'Notification',

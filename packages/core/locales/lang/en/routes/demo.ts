@@ -20,7 +20,6 @@ export default {
     virtualScroll: 'Virtual Scroll',
 
     tree: 'Tree',
-
     treeBasic: 'Basic',
     editTree: 'Searchable/toolbar',
     actionTree: 'Function operation',
@@ -66,8 +65,8 @@ export default {
   feat: {
     feat: 'Page Function',
     icon: 'Icon',
-    tabs: 'Tabs',
     sessionTimeout: 'Session Timeout',
+    tabs: 'Tabs',
     print: 'Print',
     contextMenu: 'Context Menu',
     download: 'Download',
@@ -85,13 +84,10 @@ export default {
     menu: 'Menu with parameters',
     menu1: 'Menu with parameters 1',
     menu2: 'Menu with parameters 2',
-
     ws: 'Websocket test',
-
     breadcrumb: 'Breadcrumbs',
     breadcrumbFlat: 'Flat Mode',
     breadcrumbFlatDetail: 'Flat mode details',
-
     breadcrumbChildren: 'Level mode',
     breadcrumbChildrenDetail: 'Level mode detail',
   },
@@ -139,7 +135,6 @@ export default {
 
     list: 'List page',
     listCard: 'Card list',
-    basic: 'Basic list',
     listBasic: 'Basic list',
     listSearch: 'Search list',
   },
@@ -161,19 +156,15 @@ export default {
   },
   system: {
     moduleName: 'System management',
-
     account: 'Account management',
     account_detail: 'Account detail',
     password: 'Change password',
-
     dept: 'Department management',
-
     menu: 'Menu management',
     role: 'Role management',
   },
   table: {
     table: 'Table',
-
     basic: 'Basic',
     treeTable: 'Tree',
     fetchTable: 'Remote loading',
