@@ -35,9 +35,7 @@ export default {
   form: {
     putAway: '收起',
     unfold: '展开',
-
     maxTip: '字符数应小于{0}位',
-
     apiSelectNotFound: '请等待数据加载完成...',
   },
   icon: {
@@ -132,9 +130,7 @@ export default {
   verify: {
     error: '验证失败！',
     time: '验证校验成功,耗时{time}秒！',
-
     redoTip: '点击图片可刷新',
-
     dragText: '请按住滑块拖动',
     successText: '验证通过',
   },
