@@ -35,7 +35,7 @@ html #layuicss-layer{display:none;position:absolute;width:1989px;}
 @keyframes layer-fadeIn{0%{opacity:0}100%{opacity:1}}.layer-anim-05{-webkit-animation-name:layer-fadeIn;animation-name:layer-fadeIn}
 @-webkit-keyframes layer-shake{0%,100%{-webkit-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%,90%{-webkit-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%,80%{-webkit-transform:translateX(10px);transform:translateX(10px)}}@keyframes layer-shake{0%,100%{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%,90%{-webkit-transform:translateX(-10px);-ms-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%,80%{-webkit-transform:translateX(10px);-ms-transform:translateX(10px);transform:translateX(10px)}}.layer-anim-06{-webkit-animation-name:layer-shake;animation-name:layer-shake}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
 
-.layui-layer-title{padding:0 80px 0 20px;height:50px;line-height:50px;border-bottom:1px solid #F0F0F0;font-size:14px;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:8px 8px 0 0;}
+.layui-layer-title{padding:0 80px 0 20px;height:50px;line-height:50px;border-bottom:1px solid #F0F0F0;font-size:14px;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:10px 10px 0 0;}
 .layui-layer-setwin{position:absolute;right:20px;*right:0;top:20px;font-size:0;line-height:initial;}
 .layui-layer-setwin a{position:relative;width:16px;height:16px;margin-left:19px;font-size:12px;_overflow:hidden;}
 .layui-layer-setwin .layui-layer-min{display:none!important}
@@ -51,7 +51,7 @@ html #layuicss-layer{display:none;position:absolute;width:1989px;}
 .layui-layer-setwin .layui-layer-close2:hover{ background-position:-180px -31px;}
 
 .layui-layer-btn{text-align:right;padding:0 15px 12px;pointer-events:auto;user-select:none;-webkit-user-select:none;}
-.layui-layer-btn a{height:28px;line-height:28px;margin:5px 5px 0;padding:0 15px;border:1px solid #dedede;background-color:#fff;color:#333;border-radius:8px;font-weight:400;cursor:pointer;text-decoration:none;}
+.layui-layer-btn a{height:28px;line-height:28px;margin:5px 5px 0;padding:0 15px;border:1px solid #dedede;background-color:#fff;color:#333;border-radius:15px;font-weight:400;cursor:pointer;text-decoration:none;}
 .layui-layer-btn a:hover{opacity:0.9;text-decoration:none;}
 .layui-layer-btn a:active{opacity:0.8;}
 .layui-layer-btn .layui-layer-btn0{border-color:#1E9FFF;background-color:#1E9FFF;color:#fff;}
@@ -75,14 +75,14 @@ html #layuicss-layer{display:none;position:absolute;width:1989px;}
 .layui-layer-page .layui-layer-content{position:relative;overflow:auto;}
 .layui-layer-page .layui-layer-btn,.layui-layer-iframe .layui-layer-btn{padding-top:10px;}
 .layui-layer-nobg{background:none;}
-.layui-layer-iframe iframe{display:block;width:100%;border-radius:8px;}
+.layui-layer-iframe iframe{display:block;width:100%;border-radius:10px;}
 
 .layui-layer-loading{border-radius:100%;background:none; box-shadow:none; border:none;}
 .layui-layer-loading .layui-layer-content{width:60px;height:24px;background:url(loading-0.gif) no-repeat;}
 .layui-layer-loading .layui-layer-loading1{width:37px;height:37px;background:url(loading-1.gif) no-repeat;}
 .layui-layer-loading .layui-layer-loading2, .layui-layer-ico16{width:32px;height:32px;background:url(loading-2.gif) no-repeat;}
 .layui-layer-tips{background:none;box-shadow:none;border:none;}
-.layui-layer-tips .layui-layer-content{position:relative;overflow:visible;line-height:22px;min-width:12px;padding:8px 15px;font-size:12px;_float:left;border-radius:8px;box-shadow:1px 1px 3px rgba(0,0,0,.2);background-color:#000;color:#fff;}
+.layui-layer-tips .layui-layer-content{position:relative;overflow:visible;line-height:22px;min-width:12px;padding:8px 15px;font-size:12px;_float:left;border-radius:10px;box-shadow:1px 1px 3px rgba(0,0,0,.2);background-color:#000;color:#fff;}
 .layui-layer-tips .layui-layer-close{right:-2px;top:-1px;}
 .layui-layer-tips i.layui-layer-TipsG{ position:absolute; width:0;height:0;border-width:8px;border-color:transparent;border-style:dashed;*overflow:hidden;}
 .layui-layer-tips i.layui-layer-TipsT, .layui-layer-tips i.layui-layer-TipsB{left:5px;border-right-style:solid;border-right-color:#000;}
