@@ -37,6 +37,7 @@
         </div>
       </template>
     </BasicForm>
+    <FormExtend v-show="op === 'add' || op === 'edit'" ref="formExtendRef" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup name="ViewsSysRoleForm">
@@ -47,7 +48,7 @@
   import { Icon } from '@jeesite/core/components/Icon';
   import { useDict } from '@jeesite/core/components/Dict';
   import { BasicTree, TreeActionType } from '@jeesite/core/components/Tree';
-  import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
+  import { BasicForm, FormExtend, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicDrawer, useDrawerInner } from '@jeesite/core/components/Drawer';
   import { Role, roleSave, checkRoleName, roleForm, roleMenuTreeData } from '@jeesite/core/api/sys/role';
 
@@ -64,6 +65,7 @@
   const op = ref<string>('');
   const sysCodeRef = ref<Array<Recordable>>([]);
   const sysCodesRef = ref<Array<string>>([]);
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   const inputFormSchemas: FormSchema[] = [
     {
@@ -243,6 +245,7 @@
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ loading: true });
     await resetFields();
+    await formExtendRef.value?.resetFields();
     op.value = data.op || 'add';
     const res = await roleForm(data);
     record.value = (res.role || {}) as Role;
@@ -265,6 +268,7 @@
       await loadSysCode();
       await loadTreeDatas();
     }
+    await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });
   });
 
@@ -317,6 +321,7 @@
       if (op.value === 'add' || op.value === 'auth') {
         data.roleMenuListJson = getRoleMenuListJson();
       }
+      data.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await roleSave(params, data);
       showMessage(res.message);

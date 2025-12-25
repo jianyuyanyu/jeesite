@@ -32,6 +32,7 @@
         <FormUserRoleList ref="formUserRoleListRef" />
       </template>
     </BasicForm>
+    <FormExtend ref="formExtendRef" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup name="ViewsSysEmpUserForm">
@@ -41,7 +42,7 @@
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { router } from '@jeesite/core/router';
   import { Icon } from '@jeesite/core/components/Icon';
-  import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
+  import { BasicForm, FormExtend, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicDrawer, useDrawerInner } from '@jeesite/core/components/Drawer';
   import { EmpUser, checkEmpNo, empUserSave, empUserForm } from '@jeesite/core/api/sys/empUser';
   import { checkLoginCode } from '@jeesite/core/api/sys/user';
@@ -66,6 +67,7 @@
   const ctrlPermi = ref<string>('');
   const postRolePermi = ref<boolean>(false);
   const op = ref<string>('');
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   const inputFormSchemas: FormSchema<EmpUser>[] = [
     {
@@ -284,6 +286,7 @@
 
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     await resetFields();
+    await formExtendRef.value?.resetFields();
     formEmployeeOfficeListRef.value?.clearTableData();
     formUserRoleListRef.value?.clearTableData();
     setDrawerProps({ loading: true });
@@ -342,6 +345,7 @@
     if (op.value === 'add' || op.value === 'auth') {
       formUserRoleListRef.value?.setTableData(res, ctrlPermi);
     }
+    await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });
   });
 
@@ -364,6 +368,7 @@
       if (op.value === 'add' || op.value === 'auth') {
         await formUserRoleListRef.value?.getSelectRowKeyString(data);
       }
+      data.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await empUserSave(params, data);
       showMessage(res.message);

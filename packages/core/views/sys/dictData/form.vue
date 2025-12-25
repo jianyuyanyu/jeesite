@@ -17,6 +17,7 @@
       <span> {{ getTitle.value }} </span>
     </template>
     <BasicForm @register="registerForm" />
+    <FormExtend ref="formExtendRef" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup name="ViewsSysDictDataForm">
@@ -25,7 +26,7 @@
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { router } from '@jeesite/core/router';
   import { Icon } from '@jeesite/core/components/Icon';
-  import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
+  import { BasicForm, FormExtend, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicDrawer, useDrawerInner } from '@jeesite/core/components/Drawer';
   import { DictData, dictDataSave, dictDataForm, dictDataTreeData } from '@jeesite/core/api/sys/dictData';
 
@@ -39,6 +40,7 @@
     icon: meta.icon || 'ant-design:book-outlined',
     value: record.value.isNewRecord ? t('新增选项') : t('编辑选项'),
   }));
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   const inputFormSchemas: FormSchema[] = [
     {
@@ -172,6 +174,7 @@
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ loading: true });
     await resetFields();
+    await formExtendRef.value?.resetFields();
     const res = await dictDataForm(data);
     record.value = (res.dictData || {}) as DictData;
     if (data.dictType) {
@@ -195,6 +198,7 @@
         },
       },
     ]);
+    await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });
   });
 
@@ -208,6 +212,7 @@
       };
       data.dictType = record.value.dictType;
       data.oldParentCode = record.value.parentCode;
+      data.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await dictDataSave(params, data);
       showMessage(res.message);

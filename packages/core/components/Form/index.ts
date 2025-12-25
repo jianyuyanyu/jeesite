@@ -12,5 +12,6 @@ export { default as RadioGroup } from './src/components/JeeSiteRadioGroup.vue';
 export { default as RadioButtonGroup } from './src/components/JeeSiteRadioButtonGroup.vue';
 export { default as CheckboxGroup } from './src/components/JeeSiteCheckboxGroup.vue';
 export { default as FormGroup } from './src/components/FormGroup.vue';
+export { default as FormExtend } from './src/components/FormExtend.vue';
 
 export { BasicForm };

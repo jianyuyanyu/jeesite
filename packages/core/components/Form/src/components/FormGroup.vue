@@ -5,16 +5,43 @@
 -->
 <template>
   <div v-bind="$attrs" class="jeesite-form-group">
-    <div class="title">
+    <div :class="`title ${props.collapsed !== undefined ? 'cursor-pointer' : ''}`" @click="handleTitleClick">
       <slot></slot>
+      <Icon
+        v-if="props.collapsed !== undefined"
+        class="pl-2"
+        :icon="innerCollapsed ? 'i-ant-design:minus-circle-outlined' : 'i-ant-design:plus-circle-outlined'"
+      />
     </div>
   </div>
 </template>
-<script lang="ts" setup name="JeeSiteFormGroup"></script>
+<script lang="ts" setup name="JeeSiteFormGroup">
+  import { ref, watchEffect } from 'vue';
+  import { Icon } from '@jeesite/core/components/Icon';
+
+  const props = defineProps({
+    collapsed: Object as PropType<boolean | undefined>,
+  });
+
+  const emit = defineEmits(['collapsed']);
+
+  const innerCollapsed = ref<boolean>(false);
+
+  watchEffect(() => {
+    innerCollapsed.value = !!props.collapsed;
+  });
+
+  function handleTitleClick() {
+    innerCollapsed.value = !innerCollapsed.value;
+    emit('collapsed', innerCollapsed.value);
+  }
+</script>
 <style lang="less">
   @prefix-cls: ~'jeesite-form-group';
 
   .@{prefix-cls} {
+    position: relative;
+
     .title {
       //width: 100%;
       font-size: 15px;

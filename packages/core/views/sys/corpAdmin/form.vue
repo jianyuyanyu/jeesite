@@ -21,6 +21,7 @@
         <BasicTable @register="registerUserRoleTable" @selection-change="handleUserRoleSelectionChange" />
       </template>
     </BasicForm>
+    <FormExtend ref="formExtendRef" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup name="ViewsSysCorpAdminForm">
@@ -29,7 +30,7 @@
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { router } from '@jeesite/core/router';
   import { Icon } from '@jeesite/core/components/Icon';
-  import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
+  import { BasicForm, FormExtend, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicDrawer, useDrawerInner } from '@jeesite/core/components/Drawer';
   import { corpAdminSave, corpAdminForm } from '@jeesite/core/api/sys/corpAdmin';
   import { User, checkLoginCode } from '@jeesite/core/api/sys/user';
@@ -49,6 +50,7 @@
   const useCorpModel = ref<boolean>(false);
   const corpAdminRoleCode = ref<string>('');
   const op = ref<string>('');
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   const inputFormSchemas: FormSchema[] = [
     {
@@ -162,7 +164,7 @@
     },
   ];
 
-  const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+  const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
     schemas: inputFormSchemas,
     baseColProps: { md: 24, lg: 12 },
     labelWidth: 120,
@@ -205,7 +207,8 @@
   }
 
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-    resetFields();
+    await resetFields();
+    await formExtendRef.value?.resetFields();
     userRoleTable.setTableData([]);
     userRoleTable.setSelectedRowKeys([]);
     setDrawerProps({ loading: true });
@@ -215,7 +218,8 @@
     useCorpModel.value = res.useCorpModel;
     corpAdminRoleCode.value = res.corpAdminRoleCode;
     setFieldsValue(record.value);
-    setUserRoleTableData(res);
+    await setUserRoleTableData(res);
+    await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });
   });
 
@@ -232,6 +236,7 @@
       data.corpName_ = 'JeeSite';
       data.userType = 'employee';
       data.userRoleString = userRoleTable.getSelectRowKeys().join(',');
+      data.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await corpAdminSave(params, data);
       showMessage(res.message);

@@ -17,6 +17,7 @@
       <span> {{ getTitle.value }} </span>
     </template>
     <BasicForm @register="registerForm" />
+    <FormExtend ref="formExtendRef" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup name="ViewsSysCompanyForm">
@@ -25,7 +26,7 @@
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { router } from '@jeesite/core/router';
   import { Icon } from '@jeesite/core/components/Icon';
-  import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
+  import { BasicForm, FormExtend, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicDrawer, useDrawerInner } from '@jeesite/core/components/Drawer';
   import { Company, companySave, companyForm, companyTreeData } from '@jeesite/core/api/sys/company';
   import { officeTreeData } from '@jeesite/core/api/sys/office';
@@ -41,6 +42,7 @@
     icon: meta.icon || 'ant-design:book-outlined',
     value: record.value.isNewRecord ? t('新增公司') : t('编辑公司'),
   }));
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   const inputFormSchemas: FormSchema[] = [
     {
@@ -148,6 +150,7 @@
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ loading: true });
     await resetFields();
+    await formExtendRef.value?.resetFields();
     const res = await companyForm(data);
     record.value = (res.company || {}) as Company;
     record.value.officeCodes = res.officeCodes || '';
@@ -175,6 +178,7 @@
         },
       },
     ]);
+    await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });
   });
 
@@ -187,6 +191,7 @@
         companyCode: record.value.companyCode,
       };
       data.oldParentCode = record.value.parentCode;
+      data.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await companySave(params, data);
       showMessage(res.message);
