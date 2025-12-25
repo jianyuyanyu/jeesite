@@ -68,7 +68,9 @@ export function useFormEvents({
       } else if (key == 'dataMap') {
         value = {};
       }
-      formModel[key] = value;
+      if (value !== undefined) {
+        formModel[key] = value;
+      }
       const labelKey = schema?.fieldLabel;
       if (labelKey) {
         const labelValue = get(values, labelKey);
