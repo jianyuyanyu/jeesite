@@ -38,6 +38,7 @@
 * 问题反馈：[http://jeesite.net](https://gitee.com/thinkgem/jeesite5/issues/new) &nbsp;|&nbsp;
           [gitcode](https://gitcode.com/thinkgem/jeesite/issues/create/choose) &nbsp;|&nbsp;
           [新手必读](https://gitee.com/thinkgem/jeesite5/issues/I18ARR)
+* 需求收集：<https://gitee.com/thinkgem/jeesite5/issues/new>
 * 联系我们：<http://s.jeesite.com>
 * 关注微信公众号，了解最新动态：
 
@@ -138,10 +139,6 @@
 
 提示：请仔细阅读源码解析，表单视图和列表视图上的注释哦，支持复杂表单以及多表单联合使用。
 
-## 演示地址
-
-1. 地址：<http://vue.jeesite.com/>
-
 ## 学习准备
 
 - [VSCode](https://code.visualstudio.com/) - 推荐 IDE 集成开发工具
@@ -154,7 +151,34 @@
 - [Vue-Vben-Admin](https://jeesite.com/front/vben-admin/) - 熟悉 UI 及表单列表及常用组件使用
 - [Ant-Design-Vue](https://antdv.com/components/overview-cn/) - 熟悉 UI 基本使用
 
-## 安装使用
+## 快速体验
+
+### 在线演示
+
+1. 地址：<http://vue.jeesite.com/>
+
+### 快速运行
+
+1. 环境准备：[Docker](https://www.docker.com)
+2. 根据您的操作系统，选择以下对应命令一键拉取 Docker 镜像并启动 JeeSite：
+
+* Linux 或 macOS
+```sh
+docker pull crpi-u3zm0t8trv68xpyx.cn-qingdao.personal.cr.aliyuncs.com/thinkgem/jeesite:latest && docker run --name js5 -p 8980:8980 -d -v ~/jeesite-data:/data crpi-u3zm0t8trv68xpyx.cn-qingdao.personal.cr.aliyuncs.com/thinkgem/jeesite:latest && docker logs -f js5
+```
+
+* Windows
+```cmd
+cmd /c "docker pull crpi-u3zm0t8trv68xpyx.cn-qingdao.personal.cr.aliyuncs.com/thinkgem/jeesite:latest && docker run --name js5 -p 8980:8980 -d -v %USERPROFILE%\jeesite-data:/data crpi-u3zm0t8trv68xpyx.cn-qingdao.personal.cr.aliyuncs.com/thinkgem/jeesite:latest && docker logs -f js5"
+```
+
+> 容器启动后，系统数据将持久化保存在本地 ~/jeesite-data（Linux/macOS）或 %USERPROFILE%\jeesite-data（Windows）目录中。
+
+3. Vue分离版本地址：<http://127.0.0.1:8980/vue/login>
+4. 全栈版本地址：<http://127.0.0.1:8980/a/login>
+5. 初始登录账号：（管理员）`system`，密码：`admin`
+
+### 本地编译运行
 
 - 如果没有安装 Node.js 20+，下载地址：<https://nodejs.org>
 
@@ -212,7 +236,7 @@ pnpm build
 
 详见文档：<https://jeesite.com/docs/vue-install-deploy/#部署到正式服务器>
 
-### 后端服务
+### 安装后端服务
 
 - 安装后台服务 [JeeSite v5.x](https://gitee.com/thinkgem/jeesite5/tree/v5.springboot3/)
 - 打开 [.env.development](https://jeesite.com/docs/vue-settings/#env-development-详解) 文件，修改后台接口：
@@ -229,7 +253,7 @@ VITE_GLOB_API_URL =
 VITE_GLOB_API_URL_PREFIX = /js
 ```
 
-### 如果您使用的 VSCode 的话，推荐安装以下插件：
+## 如果您使用的 VSCode 的话，推荐安装以下插件：
 
 * [UnoCSS](https://marketplace.visualstudio.com/items?itemName=antfu.unocss) - UnoCSS 提示插件
 * [Iconify](https://marketplace.visualstudio.com/items?itemName=antfu.iconify) - Iconify 图标插件
@@ -821,7 +845,7 @@ VITE_GLOB_API_URL_PREFIX = /js
 
 ## 专业版增加的功能
 
-1. 主题标签页的三种风格自由切换
+1. 主题标签页的五种风格自由切换
 2. 业务流程、流程设计、流程办理
 3. 文件管理、上传秒传、文件预览
 4. 高级折叠表单和个性化本地存储
