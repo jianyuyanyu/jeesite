@@ -509,6 +509,10 @@
         background: transparent;
       }
 
+      .ant-page-header .ant-page-header-content {
+        color: #bbb;
+      }
+
       .sidebar {
         background: #000 !important;
 
