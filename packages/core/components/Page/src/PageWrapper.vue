@@ -358,6 +358,17 @@
 
   .@{prefix-cls} {
     position: relative;
+    animation-duration: 0.1s;
+    animation-name: fadeIn;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
 
     .@{prefix-cls}-content {
       // margin: 16px;
