@@ -6,7 +6,7 @@
       :preview="{
         src: previewUrl || fileUrl,
       }"
-      :width="104"
+      :width="width"
     />
   </span>
 </template>
@@ -18,6 +18,7 @@
     fileUrl: propTypes.string.def(''),
     fileName: propTypes.string.def(''),
     previewUrl: propTypes.string.def(''),
+    width: propTypes.number.def(104),
   });
 </script>
 <style lang="less">

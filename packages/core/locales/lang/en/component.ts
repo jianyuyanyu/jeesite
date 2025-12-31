@@ -114,6 +114,7 @@ export default {
     maxSizeMultiple: 'Only upload files up to {0}MB!',
     maxNumber: 'Only upload up to {0} files',
 
+    image: 'Image',
     legend: 'Icon',
     fileName: 'File name',
     fileSize: 'File size',

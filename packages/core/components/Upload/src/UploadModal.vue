@@ -290,7 +290,7 @@
     }
   }
 
-  const columns = createTableColumns() as any[];
+  const columns = createTableColumns(props) as any[];
 
   const actionColumn = createActionColumn(handleRemove) as any;
 </script>

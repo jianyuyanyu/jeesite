@@ -13,12 +13,13 @@ const { t } = useI18n();
 const { ctxPath } = useGlobSetting();
 
 // 文件上传列表
-export function createTableColumns(): BasicColumn[] {
+export function createTableColumns(props: any): BasicColumn[] {
+  const isImage = props.uploadType === 'image';
   return [
     {
       dataIndex: 'fileUrl',
-      title: t('component.upload.legend'),
-      width: 100,
+      title: isImage ? t('component.upload.image') : t('component.upload.legend'),
+      width: isImage ? 200 : 100,
       customRender: ({ record, index }) => {
         const { fileUrl, type, fileEntity } = (record as FileUpload) || {};
         let url = fileUrl || '';
@@ -26,7 +27,7 @@ export function createTableColumns(): BasicColumn[] {
           url = ctxPath + url;
         }
         if (isImgTypeByName(url)) {
-          return <ThumbUrl fileUrl={url} />;
+          return <ThumbUrl fileUrl={url} width={isImage ? 200 : 100} />;
         }
         const ext = type || fileEntity?.fileExtension || <Icon icon="i-ant-design:file-outlined" />;
         const color = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'][index % 4];
@@ -107,11 +108,12 @@ export function createActionColumn(handleRemove: Function): BasicColumn {
 }
 // 文件预览列表
 export function createPreviewColumns(props: any): BasicColumn[] {
+  const isImage = props.uploadType === 'image';
   return [
     {
       dataIndex: 'fileUrl',
-      title: t('component.upload.legend'),
-      width: 100,
+      title: isImage ? t('component.upload.image') : t('component.upload.legend'),
+      width: isImage ? 200 : 100,
       customRender: ({ record, index }) => {
         const { fileUrl, type, fileEntity } = (record as FileUpload) || {};
         let url = fileUrl || '';
@@ -128,7 +130,7 @@ export function createPreviewColumns(props: any): BasicColumn[] {
           }
         }
         if (isImgTypeByName(url)) {
-          return <ThumbUrl fileUrl={url} previewUrl={previewUrl} />;
+          return <ThumbUrl fileUrl={url} previewUrl={previewUrl} width={isImage ? 200 : 100} />;
         }
         const ext = type || fileEntity?.fileExtension || <Icon icon="i-ant-design:file-outlined" />;
         const color = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'][index % 4];

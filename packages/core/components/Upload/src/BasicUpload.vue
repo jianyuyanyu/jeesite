@@ -35,6 +35,7 @@
       @delete="handleDelete"
     />
     <UploadPreviewModal
+      v-bind="bindValue"
       :value="fileList"
       :readonly="readonly || disabled"
       :imageThumbName="imageThumbName"
@@ -118,10 +119,10 @@
       ).then((res) => {
         if (isArray(res)) {
           fileList.value = res;
-          dataMap.value[props.bizType + '__len'] = fileList.value.length;
-          emit('update:value', dataMap.value);
-          emit('change', dataMap.value);
         }
+        dataMap.value[props.bizType + '__len'] = fileList.value.length;
+        emit('update:value', dataMap.value);
+        emit('change', dataMap.value, fileList.value);
       });
     }
   }
