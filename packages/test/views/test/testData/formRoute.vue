@@ -353,7 +353,7 @@
     inset: true,
   });
 
-  async function setTestDataChildTableData(_res: Recordable) {
+  function setTestDataChildTableData(_res: Recordable) {
     testDataChildTable.setColumns([
       {
         title: t('单行文本'),
@@ -546,7 +546,7 @@
     const res = await testDataForm(unref(query));
     record.value = (res.testData || {}) as TestData;
     record.value.__t = new Date().getTime();
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     setTestDataChildTableData(res);
     updateTabTitle();
     loadingRef.value = false;

@@ -249,8 +249,8 @@
     op.value = data.op || 'add';
     const res = await roleForm(data);
     record.value = (res.role || {}) as Role;
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'roleCode',
         componentProps: {

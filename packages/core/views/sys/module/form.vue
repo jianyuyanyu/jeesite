@@ -206,8 +206,8 @@
     });
     genTplCategoryList.value = res.config?.moduleTplCategory?.tplCategoryList || [];
     isCustomModule.value = !moduleNames.includes(record.value.moduleCode || '');
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'moduleCode',
         componentProps: {

@@ -201,7 +201,7 @@
     record.value.__t = new Date().getTime();
     record.value.requestUriFormat =
       '[' + record.value.requestMethod + '] ' + record.value.serverAddr + record.value.requestUri;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     setDrawerProps({ loading: false });
   });
 </script>

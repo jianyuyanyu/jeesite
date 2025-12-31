@@ -128,8 +128,8 @@
     record.value = (res.post || {}) as Post;
     record.value.roleCodes = res.roleCodes || '';
     record.value.roleNames = res.roleNames || '';
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'viewCode',
         componentProps: {

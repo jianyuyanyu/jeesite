@@ -125,7 +125,7 @@
     await resetFields();
     const res = await configForm(data);
     record.value = (res.config || {}) as Config;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     setDrawerProps({ loading: false });
   });
 

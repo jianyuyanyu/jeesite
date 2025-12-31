@@ -186,8 +186,8 @@
       record.value.parentCode = data.parentCode;
       record.value.parentName = data.parentName;
     }
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'parentCode',
         componentProps: {

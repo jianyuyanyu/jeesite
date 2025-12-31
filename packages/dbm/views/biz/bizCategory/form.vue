@@ -10,7 +10,7 @@
     :okAuth="'biz:bizCategory:edit'"
     @register="registerModal"
     @ok="handleSubmit"
-    width="60%"
+    width="70%"
   >
     <template #title>
       <Icon :icon="getTitle.icon" class="m-1 pr-1" />
@@ -108,8 +108,8 @@
       record.value.parentCode = data.parentCode;
       record.value.parentName = data.parentName;
     }
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'parentCode',
         componentProps: {

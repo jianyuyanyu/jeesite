@@ -115,7 +115,7 @@
     await resetFields();
     const res = await dictTypeForm(data);
     record.value = (res.dictType || {}) as DictType;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     setDrawerProps({ loading: false });
   });
 

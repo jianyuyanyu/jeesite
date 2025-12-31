@@ -133,7 +133,7 @@
     record.value.__t = new Date().getTime();
     record.value.readList = res.readList;
     record.value.unReadList = res.unReadList;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
   });
 </script>
 <style lang="less">

@@ -295,8 +295,8 @@
     record.value = (res.empUser || {}) as EmpUser;
     ctrlPermi.value = res.ctrlPermi || '2';
     postRolePermi.value = res.postRolePermi || false;
-    setFieldsValue(record.value);
-    updateSchema([
+    await setFieldsValue(record.value);
+    await updateSchema([
       {
         field: 'loginCode',
         componentProps: {
@@ -315,7 +315,7 @@
         label: item.postName,
         value: item.postCode,
       }));
-      updateSchema([
+      await updateSchema([
         {
           field: 'employee.office.officeCode',
           componentProps: {

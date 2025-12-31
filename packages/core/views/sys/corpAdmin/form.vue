@@ -217,7 +217,7 @@
     record.value = (res.user || {}) as User;
     useCorpModel.value = res.useCorpModel;
     corpAdminRoleCode.value = res.corpAdminRoleCode;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     await setUserRoleTableData(res);
     await formExtendRef.value?.setFieldsValue(record.value.extend);
     setDrawerProps({ loading: false });

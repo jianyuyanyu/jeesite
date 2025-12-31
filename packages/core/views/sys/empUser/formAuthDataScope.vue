@@ -89,7 +89,7 @@
     await resetFields();
     const res = await formAuthDataScope(data);
     record.value = (res.empUser || {}) as Recordable;
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     await customDataScopeRef.value?.loadDataScopeList({
       dataScopes: res.dataScopes || [],
       dataScopeList: res.userDataScopeList || [],

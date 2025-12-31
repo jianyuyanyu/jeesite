@@ -267,7 +267,7 @@
     const res = await testDataForm(data);
     record.value = (res.testData || {}) as TestData;
     record.value.__t = new Date().getTime();
-    setFieldsValue(record.value);
+    await setFieldsValue(record.value);
     formDataChildListRef.value?.setTableData(record.value);
     setDrawerProps({ loading: false });
   });
