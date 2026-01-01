@@ -16,11 +16,11 @@
   </div>
 </template>
 <script lang="ts" setup name="JeeSiteFormGroup">
-  import { ref, watchEffect } from 'vue';
+  import { PropType, ref, watchEffect } from 'vue';
   import { Icon } from '@jeesite/core/components/Icon';
 
   const props = defineProps({
-    collapsed: Object as PropType<boolean | undefined>,
+    collapsed: [Boolean, undefined] as PropType<Array<any> | boolean | undefined>,
   });
 
   const emit = defineEmits(['collapsed']);
