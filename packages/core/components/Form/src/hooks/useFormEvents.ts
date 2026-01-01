@@ -44,9 +44,9 @@ export function useFormEvents({
     Object.keys(formModel).forEach((key) => {
       formModel[key] = defaultValueRef.value[key];
     });
-    clearValidate();
+    await clearValidate();
     emit('reset', toRaw(formModel));
-    submitOnReset && handleSubmit();
+    submitOnReset && (await handleSubmit());
   }
 
   /**
@@ -75,7 +75,9 @@ export function useFormEvents({
       if (labelKey) {
         const labelValue = get(values, labelKey);
         // console.log('2', labelKey, labelValue);
-        formModel[labelKey] = labelValue;
+        if (labelValue !== undefined) {
+          formModel[labelKey] = labelValue;
+        }
       }
       // validKeys.push(key);
     }
