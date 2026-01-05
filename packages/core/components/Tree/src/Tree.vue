@@ -264,7 +264,10 @@
       watch(
         () => props.immediate,
         (v) => {
-          v && !isFirstLoaded.value && loadTreeData();
+          if (v && !isFirstLoaded.value) {
+            loadTreeData();
+            isFirstLoaded.value = true;
+          }
         },
       );
 
