@@ -10,7 +10,7 @@
       <Icon
         v-if="props.collapsed !== undefined"
         class="pl-2"
-        :icon="innerCollapsed ? 'i-ant-design:minus-circle-outlined' : 'i-ant-design:plus-circle-outlined'"
+        :icon="innerCollapsed ? 'i-ant-design:plus-circle-outlined' : 'i-ant-design:minus-circle-outlined'"
       />
     </div>
   </div>
@@ -20,7 +20,10 @@
   import { Icon } from '@jeesite/core/components/Icon';
 
   const props = defineProps({
-    collapsed: [Boolean, undefined] as PropType<Array<any> | boolean | undefined>,
+    collapsed: {
+      type: [Boolean, undefined] as PropType<boolean | undefined>,
+      default: undefined,
+    },
   });
 
   const emit = defineEmits(['collapsed']);

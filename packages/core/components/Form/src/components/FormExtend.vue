@@ -227,6 +227,7 @@
       componentProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
         showTime: { format: 'HH:mm:ss' },
+        allowClear: true,
       },
       show: () => !innerCollapsed.value,
     },
@@ -237,6 +238,7 @@
       componentProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
         showTime: { format: 'HH:mm:ss' },
+        allowClear: true,
       },
       show: () => !innerCollapsed.value,
     },
@@ -247,6 +249,7 @@
       componentProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
         showTime: { format: 'HH:mm:ss' },
+        allowClear: true,
       },
       show: () => !innerCollapsed.value,
     },
@@ -257,6 +260,7 @@
       componentProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
         showTime: { format: 'HH:mm:ss' },
+        allowClear: true,
       },
       show: () => !innerCollapsed.value,
     },
