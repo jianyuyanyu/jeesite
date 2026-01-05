@@ -246,7 +246,7 @@ pnpm build
 # VITE_PROXY = [["/js","https://vue.jeesite.com/js",true]]
 VITE_PROXY = [["/js","http://127.0.0.1:8980/js",false]]
 
-# 访问接口的根路径（例如：https://vue.jeesite.com）
+# 访问接口的根路径（例如：https://vue.jeesite.com）建议为空
 VITE_GLOB_API_URL = 
 
 # 访问接口的前缀，在根路径之后
