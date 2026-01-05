@@ -46,5 +46,8 @@ export const menuEnable = (params?: Menu | any) => defHttp.get<Menu>({ url: admi
 
 export const menuDelete = (params?: Menu | any) => defHttp.get<Menu>({ url: adminPath + '/sys/menu/delete', params });
 
+export const updateTreeSort = (params: { ids: string; sorts: string }) =>
+  defHttp.get<Menu>({ url: adminPath + '/sys/menu/updateTreeSort', params });
+
 export const menuTreeData = (params?: any) =>
   defHttp.get<TreeDataModel[]>({ url: adminPath + '/sys/menu/treeData', params });

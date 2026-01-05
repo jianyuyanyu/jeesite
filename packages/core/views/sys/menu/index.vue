@@ -66,6 +66,7 @@
           sysCode.value = item.value;
           sysName.value = item.name;
           apiParams.value.sysCode = item.value;
+          treeCodes.value = [];
         },
       };
     });
