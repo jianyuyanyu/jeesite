@@ -359,12 +359,13 @@
   .@{prefix-cls} {
     position: relative;
     animation-duration: 0.1s;
-    animation-name: fadeIn;
+    animation-name: fade-in;
 
-    @keyframes fadeIn {
+    @keyframes fade-in {
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }

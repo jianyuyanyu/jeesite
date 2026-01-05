@@ -16,7 +16,7 @@
   import { getTheme } from './getTheme';
   import { buildUUID } from '@jeesite/core/utils/uuid';
 
-  type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
+  type Lang = 'en_US' | 'zh_CN' | 'zh_TW' | 'ja_JP' | undefined;
 
   defineOptions({ inheritAttrs: false });
 
@@ -71,17 +71,17 @@
     },
   );
 
-  const getCurrentLang = computed((): 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' => {
+  const getCurrentLang = computed((): Lang => {
     let lang: Lang;
     switch (unref(getLocale)) {
       case 'en':
         lang = 'en_US';
         break;
-      case 'ja':
+      case 'ja_JP':
         lang = 'ja_JP';
         break;
-      case 'ko':
-        lang = 'ko_KR';
+      case 'zh_TW':
+        lang = 'zh_TW';
         break;
       default:
         lang = 'zh_CN';

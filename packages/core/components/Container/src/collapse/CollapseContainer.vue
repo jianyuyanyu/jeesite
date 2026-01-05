@@ -119,6 +119,7 @@
       justify-content: flex-end;
     }
   }
+
   [data-theme='dark'] .jeesite-collapse-container__header {
     border-bottom: 1px solid #525252;
   }

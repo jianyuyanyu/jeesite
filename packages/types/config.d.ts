@@ -10,7 +10,7 @@ import {
 
 import { CacheTypeEnum } from '@jeesite/core/enums/cacheEnum';
 
-export type LocaleType = 'zh_CN' | 'en' | 'ru' | 'ja' | 'ko';
+export type LocaleType = 'zh_CN' | 'en' | 'zh_TW' | 'ja_JP';
 
 export interface MenuSetting {
   bgColor: string;
