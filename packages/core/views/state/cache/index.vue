@@ -43,7 +43,7 @@
     </PageWrapper>
   </PageWrapper>
 </template>
-<script lang="ts" setup name="ViewsSysEmpUserIndex">
+<script lang="ts" setup name="ViewsStateCacheIndex">
   import { ref } from 'vue';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   import { Icon } from '@jeesite/core/components/Icon';
@@ -60,7 +60,7 @@
   import { BasicForm, useForm } from '@jeesite/core/components/Form';
   import { useWindowSizeFn } from '@jeesite/core/hooks/event/useWindowSizeFn';
 
-  const { t } = useI18n('sys.empUser');
+  const { t } = useI18n('state.cache');
   const { showMessage } = useMessage();
   const textAreaHeight = ref<number>(300);
   const cacheName = ref<string>('');
