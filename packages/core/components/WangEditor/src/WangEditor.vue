@@ -218,10 +218,12 @@
   @prefix-cls: ~'jeesite-editor-container';
 
   .@{prefix-cls} {
-    border: 1px solid #ccc;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
 
     .w-e-toolbar {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #d9d9d9;
+      border-radius: 6px 6px 0 0;
     }
 
     &.w-e-full-screen-container {
@@ -230,6 +232,7 @@
 
     .editor {
       overflow-y: hidden;
+      border-radius: 0 0 6px 6px;
     }
   }
 
