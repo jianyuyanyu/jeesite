@@ -9,9 +9,13 @@
     :loading="loadingRef"
     :okLoading="okLoadingRef"
     :okAuth="'test:testData:edit'"
-    @close="handleClose"
     @ok="handleSubmit"
+    @close="close"
   >
+    <template #title>
+      <Icon :icon="getTitle.icon" class="m-1 pr-1" />
+      <span> {{ getTitle.value }} </span>
+    </template>
     <template #form1>
       <BasicForm @register="registerForm1">
         <template #remarks="{ model, field }">
@@ -122,15 +126,17 @@
 
   const { t } = useI18n('test.testData');
   const { showMessage } = useMessage();
+  const { meta } = unref(router.currentRoute);
   const { setTitle, close } = useTabs(router);
   const record = ref<TestData>({} as TestData);
   const loadingRef = ref<boolean>(false);
   const okLoadingRef = ref<boolean>(false);
   const query = useQuery();
 
-  const updateTabTitle = () => {
-    setTitle(record.value.isNewRecord ? t('新增数据') : t('编辑数据'));
-  };
+  const getTitle = computed(() => ({
+    icon: meta.icon || 'i-ant-design:book-outlined',
+    value: record.value.isNewRecord ? t('新增数据') : t('编辑数据'),
+  }));
 
   const inputFormSchemas1: FormSchema<TestData>[] = [
     {
@@ -548,13 +554,9 @@
     record.value.__t = new Date().getTime();
     await setFieldsValue(record.value);
     setTestDataChildTableData(res);
-    updateTabTitle();
+    await setTitle(unref(getTitle).value);
     loadingRef.value = false;
   });
-
-  function handleClose() {
-    setTimeout(close);
-  }
 
   async function handleSubmit() {
     try {
@@ -569,7 +571,7 @@
       const res = await testDataSave(params, data);
       showMessage(res.message);
       emitter.emit('test-testData-reload');
-      handleClose();
+      setTimeout(close);
     } catch (error: any) {
       if (error && error.errorFields) {
         showMessage(error.message || t('common.validateError'));

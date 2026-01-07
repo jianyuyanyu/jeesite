@@ -5,6 +5,11 @@
 -->
 <template>
   <div class="jeesite-collapse-form-page">
+    <div class="jeesite-collapse-form-header" v-if="$slots.title">
+      <div class="jeesite-collapse-form-header-title">
+        <slot name="title"></slot>
+      </div>
+    </div>
     <ScrollContainer ref="contentRef" :style="{ height: contentHeight + 'px' }" v-loading="props.loading">
       <div v-for="item in configList" :key="item.value">
         <Collapse :class="item.value" :default-active-key="item.open ? [item.value] : []">
@@ -28,7 +33,7 @@
   </div>
 </template>
 <script lang="ts" setup name="CollapseForm">
-  import { nextTick, ref } from 'vue';
+  import { nextTick, ref, watch } from 'vue';
   import { Collapse } from 'ant-design-vue';
   import { Icon } from '@jeesite/core/components/Icon';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
@@ -40,24 +45,37 @@
 
   const props = defineProps({
     config: propTypes.array.def([]),
+    storeKey: propTypes.string.def('path'),
     okAuth: propTypes.string,
     loading: propTypes.bool,
     okLoading: propTypes.bool,
   });
 
-  const emit = defineEmits(['close', 'ok']);
+  const emit = defineEmits(['update:checked', 'close', 'ok']);
 
   const { t } = useI18n();
   const configList = ref<any[]>(props.config);
+  const checkedList = ref<any[]>(props.config);
   const contentRef = ref<ComponentRef>();
   const contentHeight = ref<number>(200);
   const { headerHeightRef } = useLayoutHeight();
 
   function calcContentHeight() {
     const parentElement = contentRef.value?.$el.parentElement;
+    const tabsElement = parentElement?.querySelector('.jeesite-form-settings-tabs');
+    const headerElement = parentElement?.querySelector('.jeesite-collapse-form-header');
     const actionsElement = parentElement?.querySelector('.jeesite-collapse-form-actions');
     if (parentElement && actionsElement) {
-      contentHeight.value = document.body.clientHeight - headerHeightRef.value - actionsElement.scrollHeight - 32;
+      let height =
+        document.body.clientHeight -
+        headerHeightRef.value -
+        (tabsElement?.scrollHeight || 0) -
+        actionsElement.scrollHeight -
+        32;
+      if (headerElement) {
+        height -= headerElement.scrollHeight;
+      }
+      contentHeight.value = height;
     }
   }
 
@@ -75,6 +93,16 @@
     { immediate: true },
   );
 
+  watch(
+    () => checkedList.value,
+    (v) => {
+      emit('update:checked', v);
+    },
+    {
+      immediate: true,
+    },
+  );
+
   function handleClose() {
     emit('close');
   }
@@ -85,12 +113,28 @@
 </script>
 <style lang="less">
   .jeesite-collapse-form {
+    &-header {
+      background-color: @component-background;
+      //margin-bottom: 5px;
+      padding: 10px 12px;
+      border-bottom: 1px solid @table-border-color;
+      border-radius: 10px 10px 0 0;
+
+      &-title {
+        font-size: 16px;
+      }
+
+      .anticon {
+        color: @primary-color;
+      }
+    }
+
     &-page {
       .scrollbar {
-        border-radius: 4px !important;
+        //border-radius: 4px !important;
 
         &__view > div {
-          margin-bottom: 5px;
+          //margin-bottom: 5px;
 
           &:last-child {
             margin-bottom: 0;
@@ -103,14 +147,16 @@
 
         &-item {
           border: 0 !important;
-          border-radius: 4px !important;
+          //border-radius: 4px !important;
         }
 
         &-header {
-          font-size: 16px;
+          font-size: 15px !important;
+          color: fade(@primary-color, 90%) !important;
           padding: 8px 16px !important;
           border: 0 !important;
-          border-radius: 4px !important;
+          //border-radius: 4px !important;
+          border-radius: 0 !important;
           background-color: @component-background;
 
           .ant-collapse-expand-icon {
@@ -120,13 +166,15 @@
 
         &-content {
           border: 0 !important;
-          padding-top: 5px !important;
-          border-radius: 0 0 4px 4px !important;
+          border-radius: 0 !important;
+          border-bottom: 1px solid @table-border-color !important;
+          //padding-top: 5px !important;
+          //border-radius: 0 0 4px 4px !important;
         }
 
         &-item-active {
           .ant-collapse-header {
-            border-radius: 4px 4px 0 0 !important;
+            //border-radius: 4px 4px 0 0 !important;
           }
         }
       }
@@ -134,10 +182,10 @@
 
     &-actions {
       padding: 10px;
-      margin-top: 5px;
+      //margin-top: 5px;
       margin-bottom: 0;
       text-align: center;
-      border-radius: 4px !important;
+      border-radius: 0 0 10px 10px !important;
       background-color: @component-background;
 
       .ant-btn {
