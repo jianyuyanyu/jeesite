@@ -100,10 +100,16 @@
     return omit(propsData, 'treeData');
   });
 
-  if (!isEmpty(props.dictType)) {
-    const { initSelectTreeData } = useDict();
-    initSelectTreeData(treeDataRef, props.dictType, true);
-  }
+  watch(
+    () => props.dictType,
+    () => {
+      if (!isEmpty(props.dictType)) {
+        const { initSelectTreeData } = useDict();
+        initSelectTreeData(treeDataRef, props.dictType, true);
+      }
+    },
+    { immediate: true },
+  );
 
   watch(
     () => props.treeData,

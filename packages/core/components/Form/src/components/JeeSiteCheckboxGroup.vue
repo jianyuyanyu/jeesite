@@ -48,10 +48,16 @@
     return { ...unref(attrs), ...(props as Recordable) };
   });
 
-  if (!isEmpty(props.dictType)) {
-    const { initSelectOptions } = useDict();
-    initSelectOptions(optionsRef, props.dictType);
-  }
+  watch(
+    () => props.dictType,
+    () => {
+      if (!isEmpty(props.dictType)) {
+        const { initSelectOptions } = useDict();
+        initSelectOptions(optionsRef, props.dictType);
+      }
+    },
+    { immediate: true },
+  );
 
   watch(
     () => props.options,
