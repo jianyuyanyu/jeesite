@@ -172,11 +172,11 @@
           //border-radius: 0 0 4px 4px !important;
         }
 
-        &-item-active {
-          .ant-collapse-header {
-            //border-radius: 4px 4px 0 0 !important;
-          }
-        }
+        //&-item-active {
+        //  .ant-collapse-header {
+        //    border-radius: 4px 4px 0 0 !important;
+        //  }
+        //}
       }
     }
 
@@ -189,11 +189,7 @@
       background-color: @component-background;
 
       .ant-btn {
-        margin-right: 8px;
-
-        &-primary {
-          background: fade(@primary-color, 85);
-        }
+        margin-left: 8px;
       }
     }
   }
