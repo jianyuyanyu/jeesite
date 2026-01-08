@@ -115,7 +115,7 @@
               Checkbox,
               {
                 onChange: (e: any) => {
-                  model.weight = e.target?.checked ? '9999' : '';
+                  model.weight = e.target?.checked ? 9999 : 0;
                 },
               },
               () => t('置顶'),
@@ -159,6 +159,6 @@
 </script>
 <style lang="less">
   .text-ruler .ant-input {
-    background: url(../../../assets/images/ruler.png) repeat-x scroll 0 bottom transparent;
+    background: url('../../../assets/images/ruler.png') repeat-x scroll 0 bottom transparent;
   }
 </style>

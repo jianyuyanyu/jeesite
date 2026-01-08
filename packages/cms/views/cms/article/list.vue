@@ -11,7 +11,11 @@
         <span> {{ getTitle.value }} </span>
       </template>
       <template #toolbar>
-        <a-button type="primary" @click="handleForm({})" v-auth="'cms:article:edit'">
+        <a-button
+          type="primary"
+          @click="handleForm({ 'category.categoryCode': !isEmpty(props.treeCodes) ? props.treeCodes[0] : '' })"
+          v-auth="'cms:article:edit'"
+        >
           <Icon icon="i-fluent:add-12-filled" /> {{ t('新增') }}
         </a-button>
       </template>
@@ -24,7 +28,7 @@
   </div>
 </template>
 <script lang="ts" setup name="ViewsCmsArticleList">
-  import { onMounted, ref, unref, watch } from 'vue';
+  import { computed, onMounted, ref, unref, watch } from 'vue';
   import { useEmitter } from '@jeesite/core/store/modules/user';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   import { useGlobSetting } from '@jeesite/core/hooks/setting';
@@ -52,6 +56,7 @@
   const { ctxPath } = useGlobSetting();
   const { meta } = unref(router.currentRoute);
   const record = ref<Article>({} as Article);
+  const isCanUseAuth = ref(false);
 
   const getTitle = {
     icon: meta.icon || 'i-ant-design:book-outlined',
@@ -78,7 +83,9 @@
         field: 'status',
         component: 'Select',
         componentProps: {
-          dictType: 'sys_search_status',
+          dictType: computed(() => {
+            return isCanUseAuth.value ? 'bpm_biz_status' : 'sys_search_status';
+          }),
           allowClear: true,
           onChange: handleSuccess,
         },
@@ -138,7 +145,6 @@
       sorter: true,
       width: 90,
       align: 'center',
-      dictType: 'sys_search_status',
     },
     {
       title: t('更新时间'),
@@ -201,7 +207,7 @@
     ],
   };
 
-  const [registerTable, { reload, getForm }] = useTable<Article>({
+  const [registerTable, { reload, getForm, updateColumn }] = useTable<Article>({
     api: articleListData,
     beforeFetch: (params) => {
       return params;
@@ -217,6 +223,8 @@
   onMounted(async () => {
     const res = await articleList();
     record.value = (res.article || {}) as Article;
+    isCanUseAuth.value = res.isCanUseAuth as boolean;
+    updateColumn({ dataIndex: 'status', dictType: isCanUseAuth.value ? 'bpm_biz_status' : 'sys_status' });
     await getForm().setFieldsValue(record.value);
   });
 
@@ -231,6 +239,10 @@
   );
 
   function handleForm(record: Recordable) {
+    if (!record.id && !record['category.categoryCode']) {
+      showMessage(t('请先选择栏目'));
+      return;
+    }
     go({
       path: '/cms/article/form',
       query: record,

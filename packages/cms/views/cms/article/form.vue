@@ -10,7 +10,7 @@
     :okLoading="okLoadingRef"
     :okAuth="'cms:article:edit'"
     @ok="handleSubmit"
-    @close="close"
+    @close="handleClose"
   >
     <template #title>
       <Icon :icon="getTitle.icon" class="m-1 pr-1" />
@@ -27,6 +27,24 @@
     </template>
     <template #view>
       <FormView ref="formViewRef" />
+    </template>
+    <template #actions>
+      <div>
+        <a-button type="default" @click="handleClose" v-auth="'cms:article:edit'">
+          <Icon icon="i-ant-design:close-outlined" /> {{ t('common.closeText') }}
+        </a-button>
+        <a-button
+          v-if="record.isNewRecord || record.status == '9'"
+          color="success"
+          @click="handleDraft"
+          :loading="loadingRef || okLoadingRef"
+        >
+          <Icon icon="i-ant-design:save-outlined" /> {{ t('草稿') }}
+        </a-button>
+        <a-button type="primary" @click="handlePublish" :loading="loadingRef || okLoadingRef">
+          <Icon icon="i-ant-design:check-outlined" /> {{ t('发布') }}
+        </a-button>
+      </div>
     </template>
   </CollapseForm>
 </template>
@@ -77,6 +95,8 @@
   //const { meta } = unref(router.currentRoute);
   const { setTitle, close } = useTabs(router);
   const record = ref<Article>({} as Article);
+  const isCanUseAuth = ref(false);
+
   const loadingRef = ref<boolean>(false);
   const okLoadingRef = ref<boolean>(false);
   const query = useQuery();
@@ -120,17 +140,34 @@
     const res = await articleForm(unref(query));
     record.value = (res.article || {}) as Article;
     record.value.__t = new Date().getTime();
+    isCanUseAuth.value = (res.isCanUseAuth as boolean) && record.value.category.isNeedAudit == '1';
     await setFieldsValue(record.value, res);
     await setTitle(unref(getTitle).value);
     loadingRef.value = false;
   });
 
-  function handleClose() {}
+  async function handleClose() {
+    setTimeout(close);
+  }
 
-  async function handleSubmit() {
+  async function handleDraft() {
+    record.value.status = '9';
+    await handleSubmit();
+  }
+
+  async function handlePublish() {
+    record.value.status = '0';
+    await handleSubmit();
+  }
+
+  async function handleSubmit(event?: any) {
     try {
       okLoadingRef.value = true;
-      const data = await validate();
+      const data = event?.formData || (await validate()); // 文章审核，提交到 BPM 流程引擎（专业版）
+      if (isCanUseAuth.value) {
+        data.bpm = Object.assign(data.bpm || {}, record.value.bpm); // 流程信息
+      }
+      data.status = record.value.status; // 提交状态
       const params: any = {
         isNewRecord: record.value.isNewRecord,
         id: record.value.id,
@@ -138,8 +175,7 @@
       // console.log('submit', params, data, record);
       const res = await articleSave(params, data);
       showMessage(res.message);
-      emitter.emit('cms-article-reload');
-      setTimeout(close);
+      handleSuccess();
     } catch (error: any) {
       if (error && error.errorFields) {
         showMessage(error.message || t('common.validateError'));
@@ -148,5 +184,10 @@
     } finally {
       okLoadingRef.value = false;
     }
+  }
+
+  function handleSuccess() {
+    emitter.emit('cms-article-reload');
+    setTimeout(close);
   }
 </script>
