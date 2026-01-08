@@ -9,8 +9,8 @@
     :loading="loadingRef"
     :okLoading="okLoadingRef"
     :okAuth="'cms:article:edit'"
-    @ok="handleSubmit"
     @close="handleClose"
+    @ok="handleSubmit"
   >
     <template #title>
       <Icon :icon="getTitle.icon" class="m-1 pr-1" />
@@ -65,29 +65,6 @@
   import FormView from './formView.vue';
   import FormOther from './formOther.vue';
 
-  const formConfig = ref<any[]>([
-    {
-      label: '基本信息',
-      value: 'main',
-      open: true,
-    },
-    {
-      label: '详细信息',
-      value: 'detail',
-      open: true,
-    },
-    {
-      label: '其他信息',
-      value: 'other',
-      open: true,
-    },
-    {
-      label: '视图配置',
-      value: 'view',
-      open: true,
-    },
-  ]);
-
   const emitter = useEmitter();
 
   const { t } = useI18n('cms.article');
@@ -105,6 +82,29 @@
     icon: /*meta.icon || */ 'i-ant-design:book-outlined',
     value: record.value.isNewRecord ? t('新增文章') : t('编辑文章'),
   }));
+
+  const formConfig = ref<any[]>([
+    {
+      label: t('基本信息'),
+      value: 'main',
+      open: true,
+    },
+    {
+      label: t('详细信息'),
+      value: 'detail',
+      open: true,
+    },
+    {
+      label: t('其他信息'),
+      value: 'other',
+      open: true,
+    },
+    {
+      label: t('视图配置'),
+      value: 'view',
+      open: true,
+    },
+  ]);
 
   const formBasicRef = ref<InstanceType<typeof FormBasic>>();
   const formDetailRef = ref<InstanceType<typeof FormDetail>>();
@@ -176,6 +176,7 @@
       const res = await articleSave(params, data);
       showMessage(res.message);
       handleSuccess();
+      setTimeout(close);
     } catch (error: any) {
       if (error && error.errorFields) {
         showMessage(error.message || t('common.validateError'));
@@ -188,6 +189,5 @@
 
   function handleSuccess() {
     emitter.emit('cms-article-reload');
-    setTimeout(close);
   }
 </script>

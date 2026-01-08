@@ -11,12 +11,17 @@
       </div>
     </div>
     <ScrollContainer ref="contentRef" :style="{ height: contentHeight + 'px' }" v-loading="props.loading">
-      <div v-for="item in configList" :key="item.value">
-        <Collapse :class="item.value" :default-active-key="item.open ? [item.value] : []">
-          <Collapse.Panel :key="item.value" :header="item.label" :forceRender="true">
-            <slot :name="item.value"></slot>
-          </Collapse.Panel>
-        </Collapse>
+      <div v-if="configList.length === 1" class="jeesite-collapse-form-single">
+        <slot :name="configList[0].value"></slot>
+      </div>
+      <div v-else class="jeesite-collapse-form-content">
+        <template v-for="item in configList" :key="item.value">
+          <Collapse :class="item.value" :default-active-key="item.open ? [item.value] : []">
+            <Collapse.Panel :key="item.value" :header="item.label" :forceRender="true">
+              <slot :name="item.value"></slot>
+            </Collapse.Panel>
+          </Collapse>
+        </template>
       </div>
     </ScrollContainer>
     <div class="jeesite-collapse-form-actions">
@@ -71,7 +76,7 @@
         headerHeightRef.value -
         (tabsElement?.scrollHeight || 0) -
         actionsElement.scrollHeight -
-        32;
+        25;
       if (headerElement) {
         height -= headerElement.scrollHeight;
       }
@@ -113,11 +118,16 @@
 </script>
 <style lang="less">
   .jeesite-collapse-form {
+    &-page {
+      background-color: @component-background;
+      border-radius: 10px;
+    }
+
     &-header {
       background-color: @component-background;
       //margin-bottom: 5px;
       padding: 10px 12px;
-      border-bottom: 1px solid @table-border-color;
+      border-bottom: 1px solid @header-light-bottom-border-color;
       border-radius: 10px 10px 0 0;
 
       &-title {
@@ -129,7 +139,19 @@
       }
     }
 
-    &-page {
+    &-single {
+      padding: 30px 30px 20px;
+      background-color: @component-background;
+      //border-bottom: 1px solid @header-light-bottom-border-color;
+      border-radius: 10px;
+    }
+
+    &-content {
+      padding: 0 25px 10px;
+      background-color: @component-background;
+      //border-bottom: 1px solid @header-light-bottom-border-color;
+      border-radius: 10px;
+
       .scrollbar {
         //border-radius: 4px !important;
 
@@ -153,11 +175,12 @@
         &-header {
           font-size: 15px !important;
           color: fade(@primary-color, 90%) !important;
-          padding: 8px 16px !important;
+          background-color: @component-background;
+          padding: 15px 5px 5px !important;
           border: 0 !important;
           //border-radius: 4px !important;
           border-radius: 0 !important;
-          background-color: @component-background;
+          border-bottom: 1px solid @header-light-bottom-border-color !important;
 
           .ant-collapse-expand-icon {
             padding-top: 3px;
@@ -167,9 +190,13 @@
         &-content {
           border: 0 !important;
           border-radius: 0 !important;
-          border-bottom: 1px solid @table-border-color !important;
+          //border-bottom: 1px solid @header-light-bottom-border-color !important;
           //padding-top: 5px !important;
           //border-radius: 0 0 4px 4px !important;
+
+          &-box {
+            padding: 20px 0 0 !important;
+          }
         }
 
         //&-item-active {
