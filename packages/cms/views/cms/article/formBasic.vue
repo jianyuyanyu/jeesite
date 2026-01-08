@@ -7,7 +7,7 @@
   <BasicForm @register="registerForm" />
 </template>
 <script lang="ts" setup name="ViewsCmsArticleFormBasic">
-  import { h, ref } from 'vue';
+  import { h, ref, Ref } from 'vue';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { Article } from '@jeesite/cms/api/cms/article';
@@ -17,6 +17,7 @@
 
   const { t } = useI18n('cms.article');
   const record = ref<Article>({} as Article);
+  let isNeedAudit = ref(false);
 
   const inputFormSchemas: FormSchema<Article>[] = [
     {
@@ -27,6 +28,9 @@
         api: categoryTreeData,
         canSelectParent: false,
         allowClear: true,
+        onSelect: (value, node) => {
+          isNeedAudit.value = node.isNeedAudit == '1';
+        },
       },
       required: true,
     },
@@ -146,8 +150,9 @@
     resetFields: async () => {
       await resetFields();
     },
-    setFieldsValue: async (values: Recordable) => {
+    setFieldsValue: async (values: Recordable, _isNeedAudit: Ref) => {
       record.value = values as Article;
+      isNeedAudit = _isNeedAudit;
       await setFieldsValue(values);
     },
     validate: async (nameList?: NamePath[]) => {

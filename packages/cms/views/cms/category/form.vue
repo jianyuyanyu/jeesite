@@ -217,6 +217,7 @@
     },
     {
       label: t('是否需要审核'),
+      helpMessage: '如果需要审核，则启动 BPM 申请流程（专业版）',
       field: 'isNeedAudit',
       component: 'RadioGroup',
       componentProps: {

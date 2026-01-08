@@ -208,7 +208,7 @@
     }
 
     &-actions {
-      padding: 10px;
+      padding: 10px 0;
       //margin-top: 5px;
       margin-bottom: 0;
       text-align: center;

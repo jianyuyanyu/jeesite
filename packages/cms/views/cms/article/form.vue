@@ -37,12 +37,12 @@
           v-if="record.isNewRecord || record.status == '9'"
           color="success"
           @click="handleDraft"
-          :loading="loadingRef || okLoadingRef"
+          :loading="okLoadingRef"
         >
           <Icon icon="i-ant-design:save-outlined" /> {{ t('草稿') }}
         </a-button>
-        <a-button type="primary" @click="handlePublish" :loading="loadingRef || okLoadingRef">
-          <Icon icon="i-ant-design:check-outlined" /> {{ t('发布') }}
+        <a-button type="primary" @click="handlePublish" :loading="okLoadingRef">
+          <Icon icon="i-ant-design:check-outlined" /> {{ record.status == '0' ? t('更新') : t('发布') }}
         </a-button>
       </div>
     </template>
@@ -73,6 +73,7 @@
   const { setTitle, close } = useTabs(router);
   const record = ref<Article>({} as Article);
   const isCanUseAuth = ref(false);
+  const isNeedAudit = ref(false);
 
   const loadingRef = ref<boolean>(false);
   const okLoadingRef = ref<boolean>(false);
@@ -119,7 +120,7 @@
   }
 
   async function setFieldsValue(values: Recordable, res: any) {
-    await formBasicRef.value?.setFieldsValue(values);
+    await formBasicRef.value?.setFieldsValue(values, isNeedAudit);
     await formDetailRef.value?.setFieldsValue(values);
     await formOtherRef.value?.setFieldsValue(values);
     await formViewRef.value?.setFieldsValue(values, res);
@@ -140,7 +141,8 @@
     const res = await articleForm(unref(query));
     record.value = (res.article || {}) as Article;
     record.value.__t = new Date().getTime();
-    isCanUseAuth.value = (res.isCanUseAuth as boolean) && record.value.category.isNeedAudit == '1';
+    isCanUseAuth.value = res.isCanUseAuth as boolean;
+    isNeedAudit.value = record.value.category.isNeedAudit == '1';
     await setFieldsValue(record.value, res);
     await setTitle(unref(getTitle).value);
     loadingRef.value = false;

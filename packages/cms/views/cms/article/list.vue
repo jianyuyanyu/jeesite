@@ -239,10 +239,10 @@
   );
 
   function handleForm(record: Recordable) {
-    if (!record.id && !record['category.categoryCode']) {
-      showMessage(t('请先选择栏目'));
-      return;
-    }
+    // if (!record.id && !record['category.categoryCode']) {
+    //   showMessage(t('请先选择栏目'));
+    //   return;
+    // }
     go({
       path: '/cms/article/form',
       query: record,
