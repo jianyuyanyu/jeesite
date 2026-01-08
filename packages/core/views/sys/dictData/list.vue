@@ -170,6 +170,12 @@
         auth: 'sys:dictData:edit',
       },
       {
+        icon: 'i-ant-design:copy-outlined',
+        title: t('复制选项'),
+        onClick: handleForm.bind(this, { dictCode: record.dictCode, op: 'copy' }),
+        auth: 'sys:dictData:edit',
+      },
+      {
         icon: 'i-ant-design:stop-outlined',
         color: 'error',
         title: t('停用选项'),
