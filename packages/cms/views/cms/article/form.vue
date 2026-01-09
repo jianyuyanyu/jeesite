@@ -91,7 +91,7 @@
       open: true,
     },
     {
-      label: t('详细信息'),
+      label: t('内容正文'),
       value: 'detail',
       open: true,
     },

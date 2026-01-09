@@ -23,16 +23,6 @@
 
   const inputFormSchemas: FormSchema<Article>[] = [
     {
-      label: t('摘要'),
-      field: 'description',
-      component: 'InputTextArea',
-      componentProps: {
-        maxlength: 500,
-      },
-      colProps: { md: 24, lg: 24 },
-    },
-    {
-      label: t('正文'),
       field: 'articleData.content',
       component: 'InputTextArea',
       componentProps: {

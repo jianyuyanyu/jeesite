@@ -35,7 +35,7 @@
       required: true,
     },
     {
-      label: t('文章来源'),
+      label: t('内容来源'),
       field: 'source',
       component: 'RadioGroup',
       componentProps: {
@@ -48,7 +48,7 @@
       required: true,
     },
     {
-      label: t('文章出处'),
+      label: t('内容出处'),
       field: 'copyfrom',
       component: 'Input',
       componentProps: {
@@ -137,6 +137,15 @@
         format: 'YYYY-MM-DD HH:mm',
         showTime: { format: 'HH:mm' },
       },
+    },
+    {
+      label: t('内容摘要'),
+      field: 'description',
+      component: 'InputTextArea',
+      componentProps: {
+        maxlength: 500,
+      },
+      colProps: { md: 24, lg: 24 },
     },
   ];
 
