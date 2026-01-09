@@ -6,19 +6,17 @@
 <template>
   <BasicForm @register="registerForm">
     <template #content="{ model, field }">
-      <WangEditor v-model:value="model[field]" :bizKey="record.id" :bizType="'article_content'" :height="400" />
+      <WangEditor v-model:value="model[field]" :bizKey="record.id" :bizType="'article_content'" :height="500" />
     </template>
   </BasicForm>
 </template>
 <script lang="ts" setup name="ViewsCmsArticleFormDetail">
   import { ref } from 'vue';
-  import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { Article } from '@jeesite/cms/api/cms/article';
   import type { NamePath } from 'ant-design-vue/lib/form/interface';
   import { WangEditor } from '@jeesite/core/components/WangEditor';
 
-  const { t } = useI18n('cms.article');
   const record = ref<Article>({} as Article);
 
   const inputFormSchemas: FormSchema<Article>[] = [

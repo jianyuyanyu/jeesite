@@ -75,6 +75,12 @@
 
   const inputFormSchemas: FormSchema<TestData>[] = [
     {
+      label: t('基本信息'),
+      field: 'basicInfo',
+      component: 'FormGroup',
+      colProps: { md: 24, lg: 24 },
+    },
+    {
       label: t('单行文本'),
       field: 'testInput',
       component: 'Input',
@@ -197,6 +203,12 @@
       },
     },
     {
+      label: t('其它信息'),
+      field: 'otherInfo',
+      component: 'FormGroup',
+      colProps: { md: 24, lg: 24 },
+    },
+    {
       label: t('备注信息'),
       field: 'remarks',
       component: 'InputTextArea',
@@ -248,6 +260,11 @@
     },
     {
       label: t('子表数据'),
+      field: 'testDataChildInfo',
+      component: 'FormGroup',
+      colProps: { md: 24, lg: 24 },
+    },
+    {
       field: 'testDataChildList',
       component: 'Input',
       colProps: { md: 24, lg: 24 },

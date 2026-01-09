@@ -204,6 +204,16 @@
         //    border-radius: 4px 4px 0 0 !important;
         //  }
         //}
+
+        .ant-form {
+          margin: 0 13px 0 15px;
+
+          &-item {
+            &.no-label {
+              margin-left: 0;
+            }
+          }
+        }
       }
     }
 

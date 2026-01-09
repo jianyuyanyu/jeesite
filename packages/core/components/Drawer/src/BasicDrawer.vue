@@ -270,10 +270,19 @@
             > .scrollbar__view {
               margin: 16px 16px 5px;
 
-              > form:first-child,
-              > .ant-tabs:first-child {
-                margin-top: 13px;
-                margin-right: 5px;
+              > .ant-form,
+              > .ant-tabs {
+                margin-right: 25px;
+
+                &:first-child {
+                  margin-top: 20px;
+                }
+
+                .jeesite-form-group {
+                  .title {
+                    margin-right: -12px;
+                  }
+                }
               }
             }
           }

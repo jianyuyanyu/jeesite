@@ -112,8 +112,8 @@
 
   .ant-form-item-label .@{prefix-cls} {
     vertical-align: baseline;
-    margin-left: -7px;
-    margin-right: -4px;
+    margin-left: -4px;
+    margin-right: -5px;
     opacity: 0.8;
   }
 </style>

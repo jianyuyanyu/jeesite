@@ -42,6 +42,12 @@
 
   const inputFormSchemas: FormSchema<TestTree>[] = [
     {
+      label: t('基本信息'),
+      field: 'basicInfo',
+      component: 'FormGroup',
+      colProps: { md: 24, lg: 24 },
+    },
+    {
       label: t('上级数据'),
       field: 'parentCode',
       fieldLabel: 'parentName',
@@ -78,6 +84,12 @@
       },
       defaultValue: '30',
       required: true,
+    },
+    {
+      label: t('其它信息'),
+      field: 'otherInfo',
+      component: 'FormGroup',
+      colProps: { md: 24, lg: 24 },
     },
     {
       label: t('备注信息'),

@@ -116,7 +116,7 @@
       open: true,
     },
     {
-      label: '子表列表',
+      label: '子表数据',
       value: 'form2',
       open: true,
     },
