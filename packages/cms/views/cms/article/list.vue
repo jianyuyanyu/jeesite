@@ -11,6 +11,7 @@
         <span> {{ getTitle.value }} </span>
       </template>
       <template #toolbar>
+        <a-button type="default" @click="handleOpenSite"> <Icon icon="i-mdi:globe" /> {{ t('访问站点') }} </a-button>
         <a-button
           type="primary"
           @click="handleForm({ 'category.categoryCode': !isEmpty(props.treeCodes) ? props.treeCodes[0] : '' })"
@@ -157,7 +158,7 @@
   ];
 
   const actionColumn: BasicColumn<Article> = {
-    width: 160,
+    width: 140,
     actions: (record: Article) => [
       {
         icon: 'i-clarity:note-edit-line',
@@ -237,6 +238,10 @@
       await reload();
     },
   );
+
+  function handleOpenSite() {
+    window.open(ctxPath + '/f/index', '_blank');
+  }
 
   function handleForm(record: Recordable) {
     // if (!record.id && !record['category.categoryCode']) {
