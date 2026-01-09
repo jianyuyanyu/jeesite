@@ -7,7 +7,7 @@
     >
       <template #header>
         <div class="flex space-x-2">
-          <BasicForm @register="registerForm" />
+          <BasicForm @register="registerForm" :baseColProps="{ md: 12, lg: 12 }" />
           <slot name="header"></slot>
           <Tooltip :overlayStyle="{ maxWidth: '500px' }">
             <template #title>
@@ -123,7 +123,7 @@
   }
   //分页相关
   const page = ref(1);
-  const pageSize = ref(36);
+  const pageSize = ref(18);
   const total = ref(0);
   const paginationProp = ref({
     showSizeChanger: false,
