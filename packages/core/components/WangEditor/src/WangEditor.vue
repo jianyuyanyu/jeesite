@@ -16,12 +16,17 @@
     />
   </div>
 </template>
-
 <script lang="ts">
+  import { Boot } from '@wangeditor/editor';
+  import attachmentModule from '@wangeditor/plugin-upload-attachment';
+  // 要在创建编辑器之前注册，且只能注册一次，不可重复注册
+  Boot.registerModule(attachmentModule);
+</script>
+<script lang="ts" setup name="WangEditor">
   import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-  import { defineComponent, computed, watch, onBeforeUnmount, shallowRef, nextTick, onMounted } from 'vue';
+  import { computed, watch, onBeforeUnmount, shallowRef, nextTick, onMounted } from 'vue';
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-  import { i18nChangeLanguage, IDomEditor } from '@wangeditor/editor';
+  import { i18nChangeLanguage, IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
   import { useDesign } from '@jeesite/core/hooks/web/useDesign';
   import { isNumber } from '@jeesite/core/utils/is';
   import { useLocale } from '@jeesite/core/locales/useLocale';
@@ -29,7 +34,7 @@
   import { uploadFile } from '@jeesite/core/api/sys/upload';
   import { buildUUID } from '@jeesite/core/utils/uuid';
 
-  const editorProps = {
+  const props = defineProps({
     value: {
       type: String,
     },
@@ -51,7 +56,15 @@
       type: String as PropType<string>,
       default: '',
     },
-  };
+    mode: {
+      type: String as PropType<string>,
+      default: 'default',
+    },
+    disabled: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+  });
 
   type InsertFnType = (url: string, alt: string, href?: string) => void;
 
@@ -76,143 +89,158 @@
     }
   }
 
-  export default defineComponent({
-    name: 'WangEditor',
-    components: { Editor, Toolbar },
-    inheritAttrs: false,
-    props: editorProps,
-    emits: ['update:value', 'change'],
-    setup(props, { emit, attrs }) {
-      const { prefixCls } = useDesign('editor-container');
-      const { ctxAdminPath } = useGlobSetting();
+  const emit = defineEmits(['update:value', 'change']);
 
-      const containerWidth = computed(() => {
-        const width = props.width;
-        if (isNumber(width)) {
-          return `${width}px`;
-        }
-        return width;
-      });
+  const { prefixCls } = useDesign('editor-container');
+  const { ctxPath, ctxAdminPath } = useGlobSetting();
 
-      const containerHeight = computed(() => {
-        const height = props.height;
-        if (isNumber(height)) {
-          return `${height}px`;
-        }
-        return height;
-      });
-
-      const toolbarConfig = {};
-      const editorConfig = {
-        placeholder: '请输入...',
-        MENU_CONF: {
-          uploadImage: {
-            onBeforeUpload: (file: File) => file,
-            customUpload: async (file: File, insertFn: InsertFnType) => {
-              const { data } = await uploadFile(
-                {
-                  bizKey: props.bizKey,
-                  bizType: props.bizType + '_editor_image',
-                  uploadType: 'image',
-                  fileMd5: buildUUID(), // 专业版支持 MD5 校验
-                  fileName: file.name,
-                  file,
-                },
-                () => {},
-              );
-              if (data.result == 'true' && data.fileUpload) {
-                const url = ctxAdminPath + '/file/download/' + data.fileUpload.id;
-                insertFn(url, data.fileUpload.fileName);
-              }
-            },
-          },
-          uploadVideo: {},
-        },
-      };
-
-      // 编辑器实例，必须用 shallowRef
-      const editorRef = shallowRef();
-
-      let isSetHtml = false;
-      function setHtml(val: string) {
-        const editor = editorRef.value;
-        if (editor == null) return;
-        isSetHtml = true;
-        editor.setHtml(val);
-      }
-
-      onMounted(() => {
-        watch(
-          () => props.value,
-          (val) => {
-            nextTick(async () => {
-              let unlock = await lock();
-              try {
-                setHtml(val || '');
-              } catch (e) {
-                setTimeout(() => {
-                  setHtml(val || '');
-                }, 500);
-              } finally {
-                unlock();
-              }
-            });
-          },
-          { immediate: true },
-        );
-        watch(
-          () => attrs.disabled,
-          () => {
-            const editor = editorRef.value;
-            if (editor == null) return;
-            if (attrs.disabled) {
-              editor.disable();
-            } else {
-              editor.enable();
-            }
-          },
-        );
-      });
-
-      // 组件销毁时，也及时销毁编辑器
-      onBeforeUnmount(() => {
-        const editor = editorRef.value;
-        if (editor == null) return;
-        editor.destroy();
-      });
-
-      const handleCreated = (editor: IDomEditor) => {
-        editorRef.value = editor; // 记录 editor 实例，重要！
-        const lang = useLocale().getLocale.value;
-        i18nChangeLanguage(lang == 'en' ? 'en' : 'zh-CN');
-        // console.log(editor.getAllMenuKeys());
-      };
-
-      const handleChange = (editor: IDomEditor) => {
-        if (isSetHtml) {
-          isSetHtml = false;
-          return;
-        }
-        let content = editor.getHtml();
-        content = content.replace('<!--HTML-->', '');
-        content = '<!--HTML-->' + content;
-        emit('update:value', content);
-        emit('change', content);
-      };
-
-      return {
-        prefixCls,
-        containerWidth,
-        containerHeight,
-        editorRef,
-        mode: 'default',
-        toolbarConfig,
-        editorConfig,
-        handleCreated,
-        handleChange,
-      };
-    },
+  const containerWidth = computed(() => {
+    const width = props.width;
+    if (isNumber(width)) {
+      return `${width}px`;
+    }
+    return width;
   });
+
+  const containerHeight = computed(() => {
+    const height = props.height;
+    if (isNumber(height)) {
+      return `${height}px`;
+    }
+    return height;
+  });
+
+  const toolbarConfig: Partial<IToolbarConfig> = {
+    insertKeys: {
+      index: 21, // 自定义插入的位置
+      keys: ['uploadAttachment'], // “上传附件”菜单
+    },
+  };
+
+  const customUpload = async (file: File, insertFn: Function, uploadType: string) => {
+    const { data } = await uploadFile(
+      {
+        bizKey: props.bizKey,
+        bizType: props.bizType,
+        uploadType: uploadType,
+        fileMd5: buildUUID(), // 专业版支持 MD5 校验（秒传）
+        fileName: file.name,
+        file,
+      },
+      () => {},
+    );
+    if (data.result == 'true' && data.fileUpload) {
+      const fileUpload = data.fileUpload;
+      if (uploadType == 'image') {
+        insertFn(ctxPath + fileUpload.fileUrl, fileUpload.fileName);
+      } else if (uploadType == 'video') {
+        insertFn(ctxPath + fileUpload.fileUrl, '');
+      } else {
+        insertFn(fileUpload.fileName, ctxAdminPath + '/file/download/' + fileUpload.id);
+      }
+    }
+  };
+
+  const editorConfig: Partial<IEditorConfig> = {
+    placeholder: '请输入...',
+    // 在编辑器中，点击选中“附件”节点时，要弹出的菜单
+    hoverbarKeys: {
+      attachment: {
+        menuKeys: ['downloadAttachment'], // “下载附件”菜单
+      },
+    },
+    MENU_CONF: {
+      uploadAttachment: {
+        onBeforeUpload: (file: File) => file,
+        customUpload: async (file: File, insertFn: Function) => {
+          return customUpload(file, insertFn, 'all');
+        },
+      },
+      uploadImage: {
+        onBeforeUpload: (file: File) => file,
+        customUpload: async (file: File, insertFn: InsertFnType) => {
+          return customUpload(file, insertFn, 'image');
+        },
+      },
+      uploadVideo: {
+        onBeforeUpload: (file: File) => file,
+        customUpload: async (file: File, insertFn: InsertFnType) => {
+          return customUpload(file, insertFn, 'video');
+        },
+      },
+    },
+  };
+
+  // 编辑器实例，必须用 shallowRef
+  const editorRef = shallowRef();
+
+  let isSetHtml = false;
+  function setHtml(val: string) {
+    const editor = editorRef.value;
+    if (editor == null) return;
+    isSetHtml = true;
+    editor.setHtml(val);
+  }
+
+  onMounted(() => {
+    watch(
+      () => props.value,
+      (val) => {
+        nextTick(async () => {
+          let unlock = await lock();
+          try {
+            setHtml(val || '');
+          } catch (e) {
+            setTimeout(() => {
+              setHtml(val || '');
+            }, 500);
+          } finally {
+            unlock();
+          }
+        });
+      },
+      { immediate: true },
+    );
+    watch(
+      () => props.disabled,
+      () => {
+        const editor = editorRef.value;
+        if (editor == null) return;
+        if (props.disabled) {
+          editor.disable();
+        } else {
+          editor.enable();
+        }
+      },
+    );
+  });
+
+  // 组件销毁时，也及时销毁编辑器
+  onBeforeUnmount(() => {
+    const editor = editorRef.value;
+    if (editor == null) return;
+    editor.destroy();
+  });
+
+  const handleCreated = (editor: IDomEditor) => {
+    // 记录 editor 实例，重要！
+    editorRef.value = editor;
+    const lang = useLocale().getLocale.value;
+    i18nChangeLanguage(lang == 'en' ? 'en' : 'zh-CN');
+    // console.log(editor.getAllMenuKeys());
+  };
+
+  const handleChange = (editor: IDomEditor) => {
+    if (isSetHtml) {
+      isSetHtml = false;
+      return;
+    }
+    let content = editor.getHtml();
+    content = content.replace('<!--HTML-->', '');
+    content = '<!--HTML-->' + content;
+    emit('update:value', content);
+    emit('change', content);
+  };
 </script>
 <style lang="less">
   @prefix-cls: ~'jeesite-editor-container';

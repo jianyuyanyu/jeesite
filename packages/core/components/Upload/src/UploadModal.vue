@@ -126,7 +126,7 @@
       name,
       percent: 0,
       type: name.split('.').pop(),
-      fileMd5: id,
+      fileMd5: id, // 专业版支持 MD5 校验（秒传）
       fileName: name,
       fileUploadId: '',
       fileEntityId: '',

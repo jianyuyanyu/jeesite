@@ -179,7 +179,7 @@
         file: async (files: File[]) => {
           const md5s: string[] = [];
           for (const file of files) {
-            md5s.push(buildUUID()); // 专业版支持 MD5 校验
+            md5s.push(buildUUID()); // 专业版支持 MD5 校验（秒传）
           }
           if (insEditor.vditor.options.upload && insEditor.vditor.options.upload.extraData) {
             insEditor.vditor.options.upload.extraData.md5s = md5s.join(',');

@@ -13,6 +13,7 @@
     "@vueuse/shared": "14.1.0",
     "@wangeditor/editor": "5.1.23",
     "@wangeditor/editor-for-vue": "5.1.12",
+    "@wangeditor/plugin-upload-attachment": "1.1.0",
     "@zxcvbn-ts/core": "3.0.4",
     "codemirror": "5.65.16",
     "cropperjs": "1.6.2",
@@ -42,8 +43,8 @@
     "@types/sortablejs": "1.15.9",
     "@vitejs/plugin-vue": "6.0.2",
     "rollup-plugin-visualizer": "6.0.5",
-    "vite-plugin-theme-vite3": "2.0.1",
-    "vite-plugin-dts": "4.5.4"
+    "vite-plugin-dts": "4.5.4",
+    "vite-plugin-theme-vite3": "2.0.1"
   },
   "homepage": "https://jeesite.com",
   "repository": {

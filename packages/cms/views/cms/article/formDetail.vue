@@ -6,7 +6,7 @@
 <template>
   <BasicForm @register="registerForm">
     <template #content="{ model, field }">
-      <WangEditor v-model:value="model[field]" :bizKey="record.id" :bizType="'site_' + field" :height="300" />
+      <WangEditor v-model:value="model[field]" :bizKey="record.id" :bizType="'article_content'" :height="400" />
     </template>
   </BasicForm>
 </template>
