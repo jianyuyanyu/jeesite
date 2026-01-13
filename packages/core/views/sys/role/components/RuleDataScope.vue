@@ -101,7 +101,7 @@
       {
         title: t('字段名'),
         dataIndex: 'columnName',
-        width: 80,
+        width: 60,
         align: 'left',
         editRow: true,
         editComponent: 'Input',
@@ -139,15 +139,6 @@
         },
       },
       {
-        title: t('匹配值'),
-        dataIndex: 'value',
-        width: 80,
-        align: 'left',
-        editRow: true,
-        editComponent: 'Input',
-        editComponentProps: {},
-      },
-      {
         title: t('值类型'),
         dataIndex: 'columnType',
         width: 50,
@@ -168,6 +159,15 @@
         format: (text, _record, _index, column) => {
           return column?.editComponentProps.options.find((item) => item.value === text).label;
         },
+      },
+      {
+        title: t('匹配值'),
+        dataIndex: 'value',
+        width: 80,
+        align: 'left',
+        editRow: true,
+        editComponent: 'Input',
+        editComponentProps: {},
       },
     ],
     actionColumn: {
