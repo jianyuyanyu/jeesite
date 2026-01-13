@@ -28,6 +28,9 @@
     <template #view>
       <FormView ref="formViewRef" />
     </template>
+    <template #extend>
+      <FormExtend ref="formExtendRef" :title="false" :collapsed="false" />
+    </template>
     <template #actions>
       <div>
         <a-button type="default" @click="handleClose" v-auth="'cms:article:edit'">
@@ -64,6 +67,7 @@
   import FormDetail from './formDetail.vue';
   import FormView from './formView.vue';
   import FormOther from './formOther.vue';
+  import { FormExtend } from '@jeesite/core/components/Form';
 
   const emitter = useEmitter();
 
@@ -105,18 +109,25 @@
       value: 'view',
       open: true,
     },
+    {
+      label: t('扩展字段'),
+      value: 'extend',
+      open: false,
+    },
   ]);
 
   const formBasicRef = ref<InstanceType<typeof FormBasic>>();
   const formDetailRef = ref<InstanceType<typeof FormDetail>>();
   const formOtherRef = ref<InstanceType<typeof FormOther>>();
   const formViewRef = ref<InstanceType<typeof FormView>>();
+  const formExtendRef = ref<InstanceType<typeof FormExtend>>();
 
   async function resetFields() {
     await formBasicRef.value?.resetFields();
     await formDetailRef.value?.resetFields();
     await formOtherRef.value?.resetFields();
     await formViewRef.value?.resetFields();
+    await formExtendRef.value?.resetFields();
   }
 
   async function setFieldsValue(values: Recordable, res: any) {
@@ -124,6 +135,9 @@
     await formDetailRef.value?.setFieldsValue(values);
     await formOtherRef.value?.setFieldsValue(values);
     await formViewRef.value?.setFieldsValue(values, res);
+    if (record.value.articleData) {
+      await formExtendRef.value?.setFieldsValue(record.value.articleData.extend);
+    }
   }
 
   async function validate(): Promise<Recordable<Article>> {
@@ -174,6 +188,8 @@
         isNewRecord: record.value.isNewRecord,
         id: record.value.id,
       };
+      if (!data.articleData) data.articleData = {};
+      data.articleData.extend = await formExtendRef.value?.validate();
       // console.log('submit', params, data, record);
       const res = await articleSave(params, data);
       showMessage(res.message);

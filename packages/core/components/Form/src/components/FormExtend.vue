@@ -24,6 +24,7 @@
   import type { NamePath } from 'ant-design-vue/lib/form/interface';
 
   const props = defineProps({
+    title: propTypes.oneOfType([propTypes.string, propTypes.bool]).def('扩展字段'),
     collapsed: propTypes.bool.def(true),
     extendS1: propTypes.string.def('字符串 1'),
     extendS2: propTypes.string.def('字符串 2'),
@@ -57,7 +58,7 @@
 
   const inputFormSchemas: FormSchema[] = [
     {
-      label: t('扩展字段'),
+      label: t(String(props.title)),
       field: 'extendInfo',
       component: 'FormGroup',
       componentProps: {
@@ -67,6 +68,7 @@
         },
       },
       colProps: { md: 24, lg: 24 },
+      show: () => props.title !== false,
     },
     {
       label: t(props.extendS1),
