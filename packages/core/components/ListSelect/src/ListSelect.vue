@@ -11,6 +11,7 @@
       v-model:value="labelValueRef"
       @click="handleInputClick"
       @search="handleInputSelect"
+      @input="handleInput"
     />
     <component
       :is="modalComponent"
@@ -22,13 +23,15 @@
   </div>
 </template>
 <script lang="ts" setup name="JeeSiteListSelect">
-  import { ref, unref, computed, watch, onMounted, shallowRef } from 'vue';
+  import { ref, unref, computed, watch, onMounted, shallowRef, type PropType } from 'vue';
   import { Input } from 'ant-design-vue';
   import { propTypes } from '@jeesite/core/utils/propTypes';
   import { useAttrs } from '@jeesite/core/hooks/core/useAttrs';
 
   import { useModal } from '@jeesite/core/components/Modal';
   import { createAsyncComponent } from '@jeesite/core/utils/factory/createAsyncComponent';
+  import type { FormActionType, FormSchema } from '@jeesite/core/components/Form';
+  import type { FormRecordable } from '@jeesite/types';
 
   const InputSearch = Input.Search;
 
@@ -54,6 +57,15 @@
     allowInput: propTypes.bool, // 允许输入
     readonly: propTypes.bool, // 是否只读
     openCheck: propTypes.bool.def(true), // 打开校验
+
+    // 当前表单字段配置
+    formSchema: {
+      type: Object as PropType<FormSchema<FormRecordable>>,
+    },
+    // 当前表单对象操作
+    formActionType: {
+      type: Object as PropType<Partial<FormActionType>>,
+    },
   });
 
   const emit = defineEmits(['change', 'select', 'click']);
@@ -144,6 +156,13 @@
     if (!props.readonly && !props.allowInput) {
       openSelectModal();
     }
+    emit('click');
+    // 消除点击输入框后，出现的表单验证信息
+    setTimeout(async () => {
+      if (props.formSchema && props.formActionType && props.formActionType.clearValidate) {
+        await props.formActionType.clearValidate([props.formSchema.field, props.formSchema.fieldLabel]);
+      }
+    }, 500);
   }
 
   async function handleInputSelect() {
@@ -192,6 +211,11 @@
       .join(',');
     emit('change', valueRef.value, labelValueRef.value);
     emit('select', values);
+  }
+
+  function handleInput() {
+    valueRef.value = labelValueRef.value;
+    emit('change', valueRef.value, labelValueRef.value);
   }
 
   defineExpose({

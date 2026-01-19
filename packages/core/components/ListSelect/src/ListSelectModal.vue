@@ -159,6 +159,9 @@
   const headerButtons = ref<any[]>([]);
 
   const [registerModal, { closeModal, setModalProps }] = useModalInner(async (data) => {
+    if (props.config.setTableAction) {
+      props.config.setTableAction(tableAction);
+    }
     //setModalProps({ loading: true });
     //console.log(data);
     selectList.value = data.selectList;

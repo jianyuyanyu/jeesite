@@ -87,10 +87,12 @@
         if (isFunction(componentProps)) {
           componentProps = componentProps({ schema, formModel, tableAction, formActionType }) ?? {};
         }
-        if (schema.component === 'InputPassword' && !componentProps['autocomplete']) {
+        if (schema.component === 'ListSelect') {
+          componentProps['formSchema'] = schema;
+          componentProps['formActionType'] = formActionType;
+        } else if (schema.component === 'InputPassword' && !componentProps['autocomplete']) {
           componentProps['autocomplete'] = 'false';
-        }
-        if (schema.component === 'Divider') {
+        } else if (schema.component === 'Divider') {
           componentProps = Object.assign({ type: 'horizontal' }, componentProps, {
             orientation: 'left',
             plain: true,

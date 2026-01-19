@@ -10,7 +10,7 @@ import { error } from '@jeesite/core/utils/log';
 
 type Props<T> = Partial<DynamicProps<BasicTableProps<T>>>;
 
-type UseTableMethod = TableActionType & {
+export type UseTableMethod = TableActionType & {
   getForm: () => FormActionType;
 };
 
