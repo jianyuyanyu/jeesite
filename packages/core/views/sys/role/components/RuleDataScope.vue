@@ -152,6 +152,7 @@
             { label: t('长整型'), value: 'Integer' },
             { label: t('浮点型'), value: 'Float' },
             { label: t('双精度'), value: 'Double' },
+            { label: t('大数值'), value: 'BigDecimal' },
             { label: t('布尔型'), value: 'Boolean' },
             { label: t('日期'), value: 'Date' },
           ],
