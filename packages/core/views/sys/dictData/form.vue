@@ -102,6 +102,7 @@
       componentProps: {
         dictType: 'sys_yes_no',
       },
+      defaultValue: '0',
       required: true,
     },
 
