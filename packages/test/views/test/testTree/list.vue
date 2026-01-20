@@ -32,13 +32,13 @@
   </div>
 </template>
 <script lang="ts" setup name="ViewsTestTestTreeList">
-  import { watch, nextTick, unref } from 'vue';
+  import { watch, nextTick, ref, unref, onMounted } from 'vue';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { router } from '@jeesite/core/router';
   import { Icon } from '@jeesite/core/components/Icon';
   import { BasicTable, BasicColumn, useTable } from '@jeesite/core/components/Table';
-  import { TestTree, testTreeDelete, testTreeListData } from '@jeesite/test/api/test/testTree';
+  import { TestTree, testTreeDelete, testTreeList, testTreeListData } from '@jeesite/test/api/test/testTree';
   import { testTreeDisable, testTreeEnable } from '@jeesite/test/api/test/testTree';
   import { useDrawer } from '@jeesite/core/components/Drawer';
   import { FormProps } from '@jeesite/core/components/Form';
@@ -54,6 +54,7 @@
   const { t } = useI18n('test.testTree');
   const { showMessage } = useMessage();
   const { meta } = unref(router.currentRoute);
+  const record = ref<TestTree>({} as TestTree);
   const getTitle = {
     icon: meta.icon || 'ant-design:book-outlined',
     value: meta.title || t('数据管理'),
@@ -178,7 +179,7 @@
   };
 
   const [registerDrawer, { openDrawer }] = useDrawer();
-  const [registerTable, { reload, expandAll, collapseAll, expandCollapse }] = useTable<TestTree>({
+  const [registerTable, { reload, expandAll, collapseAll, expandCollapse, getForm }] = useTable<TestTree>({
     api: testTreeListData,
     beforeFetch: (params) => {
       params.id = !isEmpty(props.treeCodes) ? props.treeCodes[0] : '';
@@ -192,6 +193,12 @@
     isTreeTable: true,
     pagination: false,
     canResize: true,
+  });
+
+  onMounted(async () => {
+    const res = await testTreeList();
+    record.value = (res.testTree || {}) as TestTree;
+    await getForm().setFieldsValue(record.value);
   });
 
   watch(
