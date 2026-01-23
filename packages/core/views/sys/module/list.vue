@@ -112,6 +112,14 @@
       align: 'center',
     },
     {
+      title: t('排序号'),
+      dataIndex: 'moduleSort',
+      key: 'a.module_sort',
+      sorter: true,
+      width: 90,
+      align: 'center',
+    },
+    {
       title: t('状态'),
       dataIndex: 'status',
       key: 'a.status',

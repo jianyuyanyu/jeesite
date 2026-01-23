@@ -17,7 +17,7 @@
       <span> {{ getTitle.value }} </span>
     </template>
     <template #centerFooter>
-      <a-button v-if="isCustomModule" type="primary" danger :loading="confirmLoading" @click="handleSubmit('2')">
+      <a-button v-if="isCustomModule" type="primary" danger :loading="confirmLoading" @click="handleSubmitAndGen">
         <Icon icon="i-ant-design:bug-outlined" /> {{ t('确认并生成代码') }}
       </a-button>
     </template>
@@ -49,7 +49,7 @@
   const emit = defineEmits(['success', 'register']);
 
   const { t } = useI18n('sys.module');
-  const { showMessage } = useMessage();
+  const { showMessage, createConfirm } = useMessage();
   const { meta } = unref(router.currentRoute);
   const record = ref<Module>({} as Module);
   const genBaseDir = ref<string>('');
@@ -108,15 +108,6 @@
       ],
     },
     {
-      label: t('主类全名'),
-      field: 'mainClassName',
-      component: 'Input',
-      componentProps: {
-        maxlength: 500,
-      },
-      colProps: { md: 24, lg: 24 },
-    },
-    {
       label: t('模块描述'),
       field: 'description',
       component: 'InputTextArea',
@@ -125,6 +116,40 @@
         rows: 3,
       },
       colProps: { md: 24, lg: 24 },
+    },
+    {
+      label: t('主类全名'),
+      helpMessage:
+        '该模块的状态验证类，如果该类检测不存在，则该模块状态提示 “未安装” ，验证原理：\n' +
+        'Class.forName(“com.jeesite.modules.sys.web.LoginController”)；在微服务下不进行验证。',
+      field: 'mainClassName',
+      component: 'Input',
+      componentProps: {
+        maxlength: 500,
+      },
+      colProps: { md: 24, lg: 24 },
+      required: true,
+    },
+    {
+      label: t('基础包名'),
+      helpMessage: '该模块所属的基础包名',
+      field: 'packageName',
+      component: 'Input',
+      componentProps: {
+        maxlength: 500,
+      },
+      required: true,
+    },
+    {
+      label: t('排序号'),
+      field: 'moduleSort',
+      helpMessage: '升序',
+      component: 'InputNumber',
+      defaultValue: '30',
+      componentProps: {
+        maxlength: 10,
+      },
+      required: true,
     },
     {
       label: t('版本信息'),
@@ -206,6 +231,7 @@
     });
     genTplCategoryList.value = res.config?.moduleTplCategory?.tplCategoryList || [];
     isCustomModule.value = !moduleNames.includes(record.value.moduleCode || '');
+    record.value.tplCategory = ''; // 不回显代码生成模版，选择生成模版后再编译或生成模版
     await setFieldsValue(record.value);
     await updateSchema([
       {
@@ -228,6 +254,18 @@
     return getDrawerProps().confirmLoading || false;
   });
 
+  async function handleSubmitAndGen() {
+    createConfirm({
+      title: t('提示'),
+      content: t('是否要生成模块源码到 ‘' + genBaseDir.value + '’ 目录下？'),
+      iconType: 'warning',
+      width: '50%',
+      onOk: () => {
+        handleSubmit('2');
+      },
+    });
+  }
+
   async function handleSubmit(flag: string) {
     try {
       const data = await validate();
@@ -239,7 +277,7 @@
       data.genBaseDir = genBaseDir.value;
       data.genFlag = flag ? flag : '1';
       data.replaceFile = data.replaceFile ? '1' : '0';
-      //console.log('submit', params, data, record);
+      // console.log('submit', params, data, record);
       const res = await moduleSave(params, data);
       showMessage(res.message);
       setTimeout(closeDrawer);
