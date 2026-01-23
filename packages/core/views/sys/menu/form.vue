@@ -285,7 +285,7 @@
         field: 'moduleCodes',
         componentProps: {
           options: res.moduleList.map((item) => ({
-            label: item.moduleName,
+            label: item.moduleName + ' ( ' + item.moduleCode + ' )',
             value: item.moduleCode,
           })),
         },
