@@ -86,8 +86,8 @@
         width: 60,
         align: 'left',
         editRow: true,
-        editComponent: 'Select',
         className: 'jeesite-table-tree-name',
+        editComponent: 'Select',
         editComponentProps: {
           options: [
             { label: t('并且'), value: 'AND' },
