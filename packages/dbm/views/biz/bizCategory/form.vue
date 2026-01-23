@@ -10,7 +10,7 @@
     :okAuth="'biz:bizCategory:edit'"
     @register="registerModal"
     @ok="handleSubmit"
-    width="70%"
+    width="50%"
   >
     <template #title>
       <Icon :icon="getTitle.icon" class="m-1 pr-1" />
@@ -60,6 +60,7 @@
       componentProps: {
         maxlength: 500,
       },
+      required: true,
     },
     {
       label: t('分类名称'),
