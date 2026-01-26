@@ -429,8 +429,9 @@
   });
 
   const getPopoverProps = computed(() => {
+    const className = props.column.className ? ' ' + props.column.className + '-popover' : '';
     return {
-      overlayClassName: 'edit-cell-rule-popover',
+      overlayClassName: 'edit-cell-rule-popover' + className,
       open: !!(unref(ruleMessage) && unref(ruleOpen)),
       //...(getPopupContainer ? { getPopupContainer } : {}),
       placement: 'right',
@@ -539,6 +540,7 @@
       }
 
       .ant-input,
+      .ant-input-number,
       .ant-picker,
       .ant-select-selector,
       .ant-input-affix-wrapper {
@@ -565,8 +567,13 @@
         padding-top: 5px !important;
       }
 
+      .ant-input-number input {
+        padding-left: 0 !important;
+      }
+
       .ant-select-selector {
         padding-top: 2px !important;
+        border-radius: 0;
       }
 
       .ant-select-single.ant-select-open {
@@ -579,6 +586,12 @@
         .ant-select-selection-search {
           left: -10px !important;
         }
+      }
+
+      .ant-input-number-focused,
+      .ant-select-focused .ant-select-selector {
+        border-bottom: 1px dotted #999 !important;
+        border-radius: 0;
       }
 
       .ant-input-search > .ant-input-group {
