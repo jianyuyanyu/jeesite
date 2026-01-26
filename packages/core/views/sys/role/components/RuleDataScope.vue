@@ -29,13 +29,13 @@
 </template>
 <script lang="ts" setup name="ViewsSysRoleAuthDataScope">
   import { ref } from 'vue';
+  import { pick } from 'lodash-es';
+  import { Alert } from 'ant-design-vue';
   import { useI18n } from '@jeesite/core/hooks/web/useI18n';
   // import { useMessage } from '@jeesite/core/hooks/web/useMessage';
   import { Icon } from '@jeesite/core/components/Icon';
   import { BasicForm, FormSchema, useForm } from '@jeesite/core/components/Form';
   import { BasicTable, useTable } from '@jeesite/core/components/Table';
-  import { Alert } from 'ant-design-vue';
-  import { omit, pick } from 'lodash-es';
 
   const { t } = useI18n('sys.role');
   // const { showMessage } = useMessage();
@@ -229,12 +229,11 @@
     let tableList: Recordable[] = [];
     for (const record of children || tableAction.getDataSource()) {
       await record.onEdit?.(false, true);
-      const newRecord = {
-        ...pick(record, 'id', 'andOr', 'columnName', 'queryType', 'columnType', 'value'),
-        children: [],
-      } as Recordable;
+      const newRecord = pick(record, 'id', 'andOr', 'columnName', 'queryType', 'columnType', 'value') as Recordable;
       if (record.children && record.children.length > 0) {
         newRecord.children = await getTableData(record.children);
+      } else {
+        newRecord.children = [];
       }
       tableList.push(newRecord);
     }

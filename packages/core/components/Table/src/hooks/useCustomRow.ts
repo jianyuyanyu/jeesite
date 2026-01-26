@@ -81,7 +81,6 @@ export function useCustomRow(
   }
 
   const customRow = (record: Recordable, index: number) => {
-    const { canRowDrag } = unref(propsRef);
     return {
       onClick: (event: Event) => {
         event?.stopPropagation();
