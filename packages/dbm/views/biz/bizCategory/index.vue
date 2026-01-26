@@ -10,6 +10,7 @@
         :title="t('分类')"
         :search="true"
         :toolbar="true"
+        :showIcon="true"
         :api="bizCategoryTreeData"
         :defaultExpandLevel="2"
         @select="handleSelect"
