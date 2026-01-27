@@ -160,7 +160,7 @@
     // 消除点击输入框后，出现的表单验证信息
     setTimeout(async () => {
       if (props.formSchema && props.formActionType && props.formActionType.clearValidate) {
-        await props.formActionType.clearValidate([props.formSchema.field, props.formSchema.fieldLabel]);
+        await props.formActionType.clearValidate([props.formSchema.field, props.formSchema.fieldLabel as string]);
       }
     }, 500);
   }
