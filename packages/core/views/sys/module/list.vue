@@ -116,7 +116,7 @@
       dataIndex: 'moduleSort',
       key: 'a.module_sort',
       sorter: true,
-      width: 90,
+      width: 60,
       align: 'center',
     },
     {
