@@ -4,8 +4,8 @@
  * @author ThinkGem
 -->
 <template>
-  <DbmModifyLogList />
+  <ViewsDbmModifyLogList />
 </template>
 <script lang="ts" setup name="ViewsDbmDbmModifyLogList">
-  import { DbmModifyLogList } from '@jeesite/dbm';
+  import { ViewsDbmModifyLogList } from '@jeesite/dbm';
 </script>

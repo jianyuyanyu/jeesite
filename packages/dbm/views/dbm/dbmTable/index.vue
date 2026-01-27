@@ -4,8 +4,8 @@
  * @author ThinkGem
 -->
 <template>
-  <ViewsDbmDatasourceList />
+  <ViewsDbmTableIndex />
 </template>
-<script lang="ts" setup name="ViewsDbmDbmDatasourceList">
-  import { ViewsDbmDatasourceList } from '@jeesite/dbm';
+<script lang="ts" setup name="ViewsDbmTableIndex">
+  import { ViewsDbmTableIndex } from '@jeesite/dbm';
 </script>
